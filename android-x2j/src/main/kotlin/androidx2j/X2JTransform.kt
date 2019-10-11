@@ -2,10 +2,13 @@ package androidx2j
 
 import com.android.SdkConstants
 import com.android.build.api.transform.*
+import com.android.build.gradle.AppExtension
+import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.tools.r8.com.google.common.io.Files
 import com.android.utils.FileUtils
 import javassist.ClassPool
+import javassist.LoaderClassPath
 import java.io.File
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -14,13 +17,23 @@ import java.util.zip.ZipOutputStream
 /**
  * @author 7hens
  */
-class X2JTransform(private val classPool: ClassPool) : Transform() {
+class X2JTransform(private val android: BaseExtension) : Transform() {
+    private val classPool = ClassPool(null).apply {
+        val sdkDirectory = android.sdkDirectory
+        val compileSdkVersion = android.compileSdkVersion
+        val contextClassLoader = Thread.currentThread().contextClassLoader
+        val androidJar = File(sdkDirectory, "platforms/$compileSdkVersion/android.jar")
+        appendClassPath(LoaderClassPath(contextClassLoader))
+        appendClassPath(androidJar.absolutePath)
+    }
+
     override fun transform(transformInvocation: TransformInvocation) {
         super.transform(transformInvocation)
         val outputProvider = transformInvocation.outputProvider
         transformInvocation.inputs.asSequence()
                 .flatMap { it.directoryInputs.asSequence() + it.jarInputs }
                 .forEach { classPool.appendClassPath(it.file.absolutePath) }
+
         val classConverter = X2JClassConverter(classPool)
         transformInvocation.inputs.forEach { transformInput ->
             transformInput.directoryInputs.forEach { directoryInput ->
@@ -76,6 +89,6 @@ class X2JTransform(private val classPool: ClassPool) : Transform() {
     }
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
-        return TransformManager.SCOPE_FULL_PROJECT
+        return if (android is AppExtension) TransformManager.SCOPE_FULL_PROJECT else TransformManager.PROJECT_ONLY
     }
 }
