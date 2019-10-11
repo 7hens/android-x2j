@@ -6,6 +6,19 @@
 
 The missing gradle plugin for [X2C](https://github.com/iReaderAndroid/X2C).
 
+Android X2J uses the gradle transform api, which automatically converts the java bytecode as follows during the APP build.
+
+```plain
+activity.setContentView(R.layout.activity_main)
+=>> X2J.setContentView(activity, R.layout.activity_main)
+
+layoutInflater.inflate(R.layout.view_item, parent)
+=>> X2J.inflate(layoutInflater, R.layout.view_item, parent)
+
+View.inflate(context, R.layout.view_item, parent)
+=>> X2J.inflate(context, R.layout.view_item, parent)
+```
+
 ## Setting up the dependency
 
 in build/gradle
