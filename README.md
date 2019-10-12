@@ -4,12 +4,45 @@
 [![license](https://img.shields.io/github/license/7hens/android-x2j.svg)](https://github.com/7hens/android-x2j/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/7hens/android-x2j.svg?style=social)](https://github.com/7hens/android-x2j)
 
-让你的 XML 布局变成 Java 来运行 !!
+让你的 XML 布局直接变成 Java 来运行 !!
 
-Android X2J（XML to Java）是一个 gradle 插件，可以让你零成本使用 [X2C](https://github.com/iReaderAndroid/X2C) (将 XML 布局翻译成 Java 代码)。
+Android X2J（XML to Java）是一个 Gradle 插件，它可以 __自动__ 将你的 XML 布局翻译成 Java 代码，并 __自动__ 注入到 Activity 和自定义布局中。
+
+## 使用方法
+
+1) 配置根目录的 build/gradle。
+
+```groovy
+buildscript {
+    repositories {
+        // ...
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.github.7hens:android-x2j:<last_version>'
+    }
+}
+```
+
+2) 在 app/build.gradle 中使用插件。
+
+```groovy
+// 必须在 android {} 代码块之后添加插件。
+// 如果你不想使用 X2J 了，把这行注释掉就行了。
+apply plugin: 'android-x2j'
+```
+
+> Android X2J 同时支持 application 和 library（只支持插件化）两种 module 方式。
+> 因为 X2J 会自动处理 application 中的所有依赖, 所以普通的 library module 无需使用该插件。
+
+3) 好了，接下来就交给 Android X2J 吧。
+
+## X2J 和 X2C
+
+Android X2J 基于 [X2C](https://github.com/iReaderAndroid/X2C) (将 XML 布局翻译成 Java 代码)。
 __它甚至可以让你在完全不了解 X2C 的 API 和用法情况下，就可以享受到 X2C 的功能。__
 
-首先，Android X2J 会自动为你在 dependencies 中添加 X2C 的相关依赖，生成相关的 `@Xml` 注解。
+首先，Android X2J 会自动为你在 dependencies 中添加 X2C 的相关依赖，并生成相关的 `@Xml` 注解。
 
 其次，当然也是最重要的一点，Android X2J 使用了 gradle transform api，在 APP 构建期间自动将 java 字节码做如下转换。
 
@@ -58,28 +91,3 @@ public class MainActivity extends Activity {
 
 !> 注意，目前由于 X2C 自身的限制， Android X2J 并不支持 kotlin-kapt。
 
-## 使用方法
-
-1) 配置根目录的 build/gradle。
-
-```groovy
-buildscript {
-    repositories {
-        // ...
-        maven { url "https://jitpack.io" }
-    }
-    dependencies {
-        classpath 'com.github.7hens:android-x2j:<last_version>'
-    }
-}
-```
-
-2) 在 app/build.gradle 中使用插件。
-
-```groovy
-// 必须在 android {} 代码块之后添加插件。
-// 如果你不想使用 X2J 了，把这行注释掉就行了。
-apply plugin: 'android-x2j'
-```
-
-3) 好了，接下来 Android X2J 会自动把 XML 布局翻译成 Java 代码（当然，这归功于 X2C），并打包到 APK 中。
