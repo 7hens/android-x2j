@@ -8,6 +8,8 @@
 
 Android X2J（XML to Java）是一个 Gradle 插件，它可以 __自动__ 将你的 XML 布局翻译成 Java 代码，并 __自动__ 注入到 Activity 和自定义布局中。
 
+传统的布局加载方案都是在运行时解析 XML（通过 LayoutInflater），而 Android X2J 则可以将 XML 的解析提前到编译时，从而可以让布局加载速度提高升 200%。
+
 ## 使用方法
 
 1) 配置根目录的 build/gradle。
