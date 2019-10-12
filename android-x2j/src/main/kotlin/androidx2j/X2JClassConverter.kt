@@ -24,20 +24,31 @@ class X2JClassConverter(private val classPool: ClassPool) {
             val cView = classPool.get("android.view.View")
             val cViewGroup = classPool.get("android.view.ViewGroup")
             val cLayoutInflater = classPool.get("android.view.LayoutInflater")
-            val xX2J = classPool.get("androidx2j.X2J")
+            val cX2J = classPool.get("androidx2j.X2J")
 
             redirectMethodInvokeToStatic(
                     cActivity.getDeclaredMethod("setContentView", arrayOf(cInt)),
-                    xX2J.getDeclaredMethod("setContentView", arrayOf(cActivity, cInt)))
+                    cX2J.getDeclaredMethod("setContentView", arrayOf(cActivity, cInt)))
             redirectMethodInvokeToStatic(
                     cLayoutInflater.getDeclaredMethod("inflate", arrayOf(cInt, cViewGroup, cBoolean)),
-                    xX2J.getDeclaredMethod("inflate", arrayOf(cLayoutInflater, cInt, cViewGroup, cBoolean)))
+                    cX2J.getDeclaredMethod("inflate", arrayOf(cLayoutInflater, cInt, cViewGroup, cBoolean)))
             redirectMethodInvokeToStatic(
                     cLayoutInflater.getDeclaredMethod("inflate", arrayOf(cInt, cViewGroup)),
-                    xX2J.getDeclaredMethod("inflate", arrayOf(cLayoutInflater, cInt, cViewGroup)))
+                    cX2J.getDeclaredMethod("inflate", arrayOf(cLayoutInflater, cInt, cViewGroup)))
             redirectMethodInvokeToStatic(
                     cView.getDeclaredMethod("inflate", arrayOf(cContext, cInt, cViewGroup)),
-                    xX2J.getDeclaredMethod("inflate", arrayOf(cContext, cInt, cViewGroup)))
+                    cX2J.getDeclaredMethod("inflate", arrayOf(cContext, cInt, cViewGroup)))
+
+            val applicationId = cX2J.getField("APPLICATION_ID").constantValue.toString()
+            val cR2 = classPool.getOrNull("$applicationId.R2")
+            if (cR2 != null) {
+                classPool.get("$applicationId.R").nestedClasses.forEach { cls ->
+                    val cls2 = classPool.get(cls.name.replace(".R", ".R2"))
+                    cls.fields.forEach { field ->
+                        redirectFieldAccess(field, cls2, field.name)
+                    }
+                }
+            }
         }
     }
 
@@ -51,9 +62,9 @@ class X2JClassConverter(private val classPool: ClassPool) {
             ctClass.instrument(codeConverter)
             ctClass.toBytecode(DataOutputStream(output))
             ctClass.detach()
-        } else {
-            ctClass.toBytecode(DataOutputStream(output))
+            return
         }
+        ctClass.toBytecode(DataOutputStream(output))
     }
 
     fun convert(input: File, output: File) {
