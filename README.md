@@ -4,6 +4,8 @@
 [![license](https://img.shields.io/github/license/7hens/android-x2j.svg)](https://github.com/7hens/android-x2j/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/7hens/android-x2j.svg?style=social)](https://github.com/7hens/android-x2j)
 
+Language - [English](README.en.md)
+
 让你的 XML 布局直接变成 Java 来运行 !!
 
 Android X2J（XML to Java）是一个 Gradle 插件，它可以在 APK 编译期间 __自动__ 将你的 XML 布局翻译成 Java 代码，并 __自动__ 注入到 Activity 和自定义布局中。
