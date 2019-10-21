@@ -34,7 +34,6 @@ apply plugin: 'android-x2j'
 ```
 
 > Android X2J supports both application and library (plug-in only) modules. 
-> Because X2J automatically handles all dependencies in the application, the normal library module does not need to use the plugin.
 
 3) Ok, let's hand it over to Android X2J.
 

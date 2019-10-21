@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:discard="@layout/activity_*,@layout/fragment_*"
+    tools:shrinkMode="strict" />

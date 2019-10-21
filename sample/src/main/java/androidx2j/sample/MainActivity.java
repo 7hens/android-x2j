@@ -10,8 +10,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LayoutInflater.from(this).inflate(R.layout.fragmetn_layout, null);
-        LayoutInflater.from(this).inflate(R.layout.fragmetn_layout, null, false);
+        LayoutInflater.from(this).inflate(R.layout.fragment_layout, null);
+        LayoutInflater.from(this).inflate(R.layout.fragment_layout, null, false);
     }
 
 }

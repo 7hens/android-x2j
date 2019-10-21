@@ -13,10 +13,25 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile rootProject.file('android.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
+    buildTypes {
+        debug {
             minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -25,7 +40,7 @@ android {
     }
 }
 
-// apply plugin: 'android-x2j'
+apply plugin: 'android-x2j'
 
 dependencies {
     testImplementation 'junit:junit:4.12'

@@ -37,7 +37,6 @@ apply plugin: 'android-x2j'
 ```
 
 > Android X2J 同时支持 application 和 library（只支持插件化）两种 module 方式。
-> 因为 X2J 会自动处理 application 中的所有依赖, 所以普通的 library module 无需使用该插件。
 
 3) 好了，接下来就交给 Android X2J 吧。
 

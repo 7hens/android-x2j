@@ -20,7 +20,7 @@ class X2JPlugin : Plugin<Project> {
             val androidApp = project.extensions.findByType(AppExtension::class.java)
             val androidLib = project.extensions.findByType(LibraryExtension::class.java)
             val android = androidApp ?: androidLib ?: run {
-                System.err.println("X2J: not a android module")
+                System.err.println(LOG_TAG + "not a android module")
                 return
             }
             isAndroidLibrary = androidLib != null
