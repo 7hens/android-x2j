@@ -33,10 +33,11 @@ class X2JPlugin : Plugin<Project> {
 
             val containsKapt = project.plugins.findPlugin("kotlin-kapt") != null
             val apt = if (containsKapt) "kapt" else "annotationProcessor"
+            val x2cVersion = "-SNAPSHOT"
             project.configurations.getByName(apt).dependencies
-                    .add(project.dependencies.create("com.zhangyue.we:x2c-apt:1.1.2"))
+                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
             project.configurations.getByName("implementation").dependencies
-                    .add(project.dependencies.create("com.zhangyue.we:x2c-lib:1.0.6"))
+                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-lib:$x2cVersion"))
 
             android.registerTransform(X2JTransform(android))
 
@@ -83,7 +84,7 @@ class X2JPlugin : Plugin<Project> {
             println(LOG_TAG + "generate R file")
             val rFilePath = applicationId.replace(".", "/") + "/R.java"
             val rFile = File(project.buildDir, "generated/source/r/$variantName/$rFilePath")
-            val rFile2 = File(project.buildDir, "generated/not_namespaced_r_class_sources/$variantName/process${variantName.toCamelCase()}Resources/r/$rFilePath")
+            val rFile2 = File(project.buildDir, "generated/not_namespaced_r_class_sources/$variantName/r/$rFilePath")
             if (rFile.exists() || rFile2.exists()) {
                 if (!rFile.exists()) {
                     rFile.parentFile.mkdirs()

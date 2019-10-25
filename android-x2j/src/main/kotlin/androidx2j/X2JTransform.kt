@@ -5,7 +5,7 @@ import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.android.tools.r8.com.google.common.io.Files
+import com.google.common.io.Files
 import com.android.utils.FileUtils
 import javassist.ClassPool
 import javassist.LoaderClassPath

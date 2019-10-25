@@ -34,6 +34,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions "a", "b"
+    productFlavors {
+        a1 { dimension 'a' }
+        a2 { dimension 'a' }
+        b1 { dimension 'b' }
+    }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
