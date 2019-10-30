@@ -38,6 +38,10 @@ class X2JPlugin : Plugin<Project> {
                     .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
             project.configurations.getByName("implementation").dependencies
                     .add(project.dependencies.create("com.github.7hens.X2C:x2c-lib:$x2cVersion"))
+            if (android.dataBinding.isEnabled) {
+                project.configurations.getByName("implementation").dependencies
+                        .add(project.dependencies.create("com.github.7hens.X2C:x2c-binding:$x2cVersion"))
+            }
 
             android.registerTransform(X2JTransform(android))
 
