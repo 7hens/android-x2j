@@ -12,6 +12,7 @@ import com.squareup.javapoet.CodeBlock
  * @author 7hens
  */
 object View : IView {
+    private val cView = Codes.View
     private var paddingLeft: CodeBlock? = null
     private var paddingTop: CodeBlock? = null
     private var paddingRight: CodeBlock? = null
@@ -217,13 +218,13 @@ object View : IView {
             if (item == "none") {
                 code("0")
             } else {
-                code("\$T.SCROLL_INDICATOR_\$L", Codes.View, constant(value))
+                code("\$T.SCROLL_INDICATOR_\$L", cView, constant(value))
             }
         }
     }
 
     fun scrollBarStyle(value: String): CodeBlock? {
-        return code("\$T.SCROLLBARS_\$L", Codes.View, constant(value))
+        return code("\$T.SCROLLBARS_\$L", cView, constant(value))
     }
 
     fun XmlNode.scrollbars(value: String): CodeBlock? {
@@ -240,10 +241,10 @@ object View : IView {
     }
 
     fun textAlignment(value: String): CodeBlock? {
-        return code("\$T.TEXT_ALIGNMENT_\$L", Codes.View, constant(value))
+        return code("\$T.TEXT_ALIGNMENT_\$L", cView, constant(value))
     }
 
     fun textDirection(value: String): CodeBlock? {
-        return code("\$T.TEXT_ALIGNMENT_\$L", Codes.View, constant(value))
+        return code("\$T.TEXT_ALIGNMENT_\$L", cView, constant(value))
     }
 }

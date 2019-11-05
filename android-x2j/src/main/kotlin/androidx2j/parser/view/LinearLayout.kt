@@ -1,11 +1,15 @@
 package androidx2j.parser.view
 
 import androidx2j.parser.AttrParser
+import com.squareup.javapoet.ClassName
+import com.squareup.javapoet.CodeBlock
 
 /**
  * @author 7hens
  */
 object LinearLayout : IView, IView.Parent {
+    private val cLinearLayout = ClassName.get("android.widget", "LinearLayout")
+
     override val myParser = ViewGroup.myParser + AttrParser.androidBuilder()
             .add("baselineAligned") { line("$view.setBaselineAligned(\$L)", bool(it)) }
             .add("baselineAlignedChildIndex") { line("$view.setBaselineAlignedChildIndex(\$L)", int(it)) }
@@ -20,4 +24,9 @@ object LinearLayout : IView, IView.Parent {
             .add("layout_gravity") { line("$layout.gravity(\$L)", gravity(it)) }
             .add("layout_weight") { line("$layout.weight(\$L)", float(it)) }
             .build()
+
+
+    fun orientation(value: String): CodeBlock? {
+        return code("\$T.\$L", cLinearLayout, constant(value))
+    }
 }

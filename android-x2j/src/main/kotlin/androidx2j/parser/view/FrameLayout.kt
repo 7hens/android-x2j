@@ -7,17 +7,11 @@ import androidx2j.parser.AttrParser
  */
 object FrameLayout : IView, IView.Parent {
     override val myParser = ViewGroup.myParser + AttrParser.androidBuilder()
-            .add("baselineAligned") { line("$view.setBaselineAligned(\$L)", bool(it)) }
-            .add("baselineAlignedChildIndex") { line("$view.setBaselineAlignedChildIndex(\$L)", int(it)) }
-            .add("divider") { line("$view.setDividerDrawable(\$L)", drawable(it)) }
-            .add("gravity") { line("$view.setGravity(\$L)", gravity(it)) }
-            .add("measureWithLargestChild") { line("$view.setMeasureWithLargestChild(\$L)", bool(it)) }
-            .add("orientation") { line("$view.setOrientation(\$L)", orientation(it)) }
-            .add("weightSum") { line("$view.setWeightSum(\$L)", float(it)) }
+            .add("foregroundGravity") { line("$view.setForegroundGravity(\$L)", gravity(it)) }
+            .add("measureAllChildren") { line("$view.setMeasureAllChildren(\$L)", bool(it)) }
             .build()
 
     override val childParser = ViewGroup.childParser + AttrParser.androidBuilder()
             .add("layout_gravity") { line("$layout.gravity(\$L)", gravity(it)) }
-            .add("layout_weight") { line("$layout.weight(\$L)", float(it)) }
             .build()
 }

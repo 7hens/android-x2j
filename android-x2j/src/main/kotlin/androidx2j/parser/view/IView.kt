@@ -211,13 +211,4 @@ interface IView {
             code("\$T.\$L", ClassName.get("android.view", "Gravity"), constant(item))
         }
     }
-
-    fun orientation(value: String): CodeBlock? {
-        val cLinearLayout = ClassName.get("android.widget", "LinearLayout")
-        return when (value) {
-            "horizontal" -> LinearLayout.code("\$T.HORIZONTAL", cLinearLayout)
-            "vertical" -> LinearLayout.code("\$T.VERTICAL", cLinearLayout)
-            else -> null
-        }
-    }
 }
