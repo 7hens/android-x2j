@@ -41,7 +41,7 @@ public final class X2J {
     }
 
     public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent,
-            boolean attach) {
+                               boolean attach) {
         View view = getView(inflater.getContext(), layoutId);
         if (view != null) {
             if (parent != null && attach) {

@@ -9,11 +9,11 @@
         android:id="@+id/iv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/todo"
-        android:scaleType="centerCrop"
         android:background="@drawable/head"
-        android:src="?attr/selectableItemBackground"
+        android:contentDescription="@string/todo"
         android:minHeight="@android:dimen/app_icon_size"
+        android:scaleType="centerCrop"
+        android:src="?attr/selectableItemBackground"
         app:layout_constraintDimensionRatio="H,1024:539"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,6 +23,8 @@
         android:id="@+id/xml"
         style="@style/btn"
         android:text="@string/left"
+        android:textColor="@android:color/white"
+        android:textSize="32sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv" />
 
@@ -38,9 +40,13 @@
         android:id="@+id/custom"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10px"
+        android:paddingLeft="10sp"
+        android:paddingRight="10in"
         app:layout_constraintTop_toBottomOf="@id/x2c"
         app:mixColor="black|red"
-        tools:ignore="MissingConstraints"
+        tools:ignore="InOrMmUsage,MissingConstraints,PxUsage,RtlHardcoded"
         tools:layout_editor_absoluteX="0dp" />
 
     <fragment
