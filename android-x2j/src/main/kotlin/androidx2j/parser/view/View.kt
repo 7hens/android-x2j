@@ -134,7 +134,7 @@ object View : IView {
         if (top) paddingTop = code
         if (right) paddingRight = code
         if (bottom) paddingBottom = code
-        return null
+        return AttrParser.NO_CODE
     }
 
     fun accessibilityLiveRegion(value: String): CodeBlock {
@@ -181,28 +181,7 @@ object View : IView {
     }
 
     fun tintMode(value: String): CodeBlock {
-        val cMode = ClassName.get("android.graphics", "PorterDuff", "Mode")
-        return when (value) {
-            "add" -> code("\$T.ADD", cMode)
-            "xor" -> code("\$T.XOR", cMode)
-            "multiply" -> code("\$T.MULTIPLY", cMode)
-            "screen" -> code("\$T.SCREEN", cMode)
-            "clear" -> code("\$T.CLEAR", cMode)
-            "overlay" -> code("\$T.overlay", cMode)
-            "darken" -> code("\$T.DARKEN", cMode)
-            "lighten" -> code("\$T.LIGHTEN", cMode)
-            "src" -> code("\$T.SRC", cMode)
-            "src_atop" -> code("\$T.SRC_ATOP", cMode)
-            "src_in" -> code("\$T.SRC_IN", cMode)
-            "src_out" -> code("\$T.SRC_OUT", cMode)
-            "src_over" -> code("\$T.SRC_OVER", cMode)
-            "dst" -> code("\$T.DST", cMode)
-            "dst_atop" -> code("\$T.DST_ATOP", cMode)
-            "dst_in" -> code("\$T.DST_IN", cMode)
-            "dst_out" -> code("\$T.DST_OUT", cMode)
-            "dst_over" -> code("\$T.DST_OVER", cMode)
-            else -> code("\$T.ADD", cMode)
-        }
+        return code("\$T.\$L", ClassName.get("android.graphics", "PorterDuff", "Mode"), constant(value))
     }
 
     fun drawingCacheQuality(value: String): CodeBlock {
@@ -238,26 +217,13 @@ object View : IView {
             if (item == "none") {
                 code("0")
             } else {
-                code("\$T.SCROLL_INDICATOR_" + when (item) {
-                    "top" -> "TOP"
-                    "bottom" -> "BOTTOM"
-                    "left" -> "LEFT"
-                    "right" -> "RIGHT"
-                    "start" -> "START"
-                    else -> "END"
-                }, Codes.View)
+                code("\$T.SCROLL_INDICATOR_\$L", Codes.View, constant(value))
             }
         }
     }
 
     fun scrollBarStyle(value: String): CodeBlock? {
-        return code("\$T.SCROLLBARS_" + when (value) {
-            "insideInset" -> "INSIDE_INSET"
-            "insideOverlay" -> "OUTSIDE_OVERLAY"
-            "outsideInset" -> "OUTSIDE_INSET"
-            "outsideOverlay" -> "OUTSIDE_OVERLAY"
-            else -> "INSIDE_INSET"
-        }, Codes.View)
+        return code("\$T.SCROLLBARS_\$L", Codes.View, constant(value))
     }
 
     fun XmlNode.scrollbars(value: String): CodeBlock? {
@@ -274,29 +240,10 @@ object View : IView {
     }
 
     fun textAlignment(value: String): CodeBlock? {
-        return code("\$T.TEXT_ALIGNMENT_" + when (value) {
-            "inherit" -> "INHERIT"
-            "gravity" -> "GRAVITY"
-            "center" -> "CENTER"
-            "textStart" -> "TEXT_START"
-            "textEnd" -> "TEXT_END"
-            "viewStart" -> "VIEW_START"
-            "viewEnd" -> "VIEW_END"
-            else -> "INHERIT"
-        }, Codes.View)
+        return code("\$T.TEXT_ALIGNMENT_\$L", Codes.View, constant(value))
     }
 
     fun textDirection(value: String): CodeBlock? {
-        return code("\$T.TEXT_ALIGNMENT_" + when (value) {
-            "inherit" -> "INHERIT"
-            "firstStrong" -> "FIRST_STRONG"
-            "anyRtl" -> "ANY_RTL"
-            "ltr" -> "LTR"
-            "rtl" -> "RTL"
-            "locale" -> "LOCALE"
-            "firstStrongLtr" -> "FIRST_STRONG_LTR"
-            "firstStrongRtl" -> "FIRST_STRONG_RTL"
-            else -> "INHERIT"
-        }, Codes.View)
+        return code("\$T.TEXT_ALIGNMENT_\$L", Codes.View, constant(value))
     }
 }

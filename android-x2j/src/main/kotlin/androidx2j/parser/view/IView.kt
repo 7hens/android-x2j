@@ -51,6 +51,29 @@ interface IView {
         }
     }
 
+    fun or(value: String, factory: (String) -> CodeBlock?): CodeBlock {
+        return value.split("|")
+                .fold(CodeBlock.builder().add("0")) { codes, item ->
+                    factory.invoke(item)?.let { codes.add("|").add(it) }
+                    codes
+                }
+                .build()
+    }
+
+    fun constant(value: String): String {
+        val result = StringBuilder()
+        var lastCharIsCapital = false
+        for (ch in value) {
+            val isCapital = ch in 'A'..'Z'
+            if (isCapital && !lastCharIsCapital) {
+                result.append("_")
+            }
+            result.append(ch.toUpperCase())
+            lastCharIsCapital = isCapital
+        }
+        return result.toString()
+    }
+
     fun attrId(value: String): CodeBlock? {
         val resName = getResourceName(value)
         return when {
@@ -182,34 +205,10 @@ interface IView {
         }
     }
 
-    fun or(value: String, factory: (String) -> CodeBlock?): CodeBlock {
-        return value.split("|")
-                .fold(CodeBlock.builder().add("0")) { codes, item ->
-                    factory.invoke(item)?.let { codes.add("|").add(it) }
-                    codes
-                }
-                .build()
-    }
 
     fun gravity(value: String): CodeBlock? {
         return or(value) { item ->
-            code(when (item) {
-                "start" -> "\$T.START"
-                "end" -> "\$T.END"
-                "left" -> "\$T.LEFT"
-                "right" -> "\$T.RIGHT"
-                "top" -> "\$T.TOP"
-                "bottom" -> "\$T.BOTTOM"
-                "center" -> "\$T.CENTER"
-                "center_vertical" -> "\$T.CENTER_VERTICAL"
-                "center_horizontal" -> "\$T.CENTER_HORIZONTAL"
-                "fill" -> "\$T.FILL"
-                "fill_horizontal" -> "\$T.FILL_HORIZONTAL"
-                "fill_vertical" -> "\$T.FILL_VERTICAL"
-                "clip_vertical" -> "\$T.CLIP_VERTICAL"
-                "clip_horizontal" -> "\$T.CLIP_HORIZONTAL"
-                else -> "\$T.LEFT"
-            }, ClassName.get("android.view", "Gravity"))
+            code("\$T.\$L", ClassName.get("android.view", "Gravity"), constant(item))
         }
     }
 
