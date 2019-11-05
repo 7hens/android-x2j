@@ -1,6 +1,7 @@
 package androidx2j.parser.view
 
 import androidx2j.parser.AttrParser
+import androidx2j.parser.Codes
 import androidx2j.parser.XmlNode
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.CodeBlock
@@ -13,6 +14,10 @@ interface IView {
 
     interface Parent {
         val childParser: AttrParser
+    }
+
+    fun todo(): CodeBlock? {
+        return null
     }
 
     fun parser(parent: Parent): AttrParser {
@@ -46,121 +51,130 @@ interface IView {
         }
     }
 
-    fun attrId(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun attrId(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it.startsWith("?attr") -> code("R.attr.$resName")
-            it.startsWith("?android:attr") -> code("android.R.attr.$resName")
+            value.startsWith("?attr") -> code("R.attr.$resName")
+            value.startsWith("?android:attr") -> code("android.R.attr.$resName")
             else -> null
         }
     }
 
-    fun id(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun id(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it.startsWith("@+id/") || it.startsWith("@id/") -> code("R.id.$resName")
-            it.startsWith("@android:id/") -> code("android.R.id.$resName")
+            value.startsWith("@+id/") || value.startsWith("@id/") -> code("R.id.$resName")
+            value.startsWith("@android:id/") -> code("android.R.id.$resName")
             else -> null
         }
     }
 
-    fun string(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun string(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it.startsWith("@string/") -> code("resources.getString(R.string.$resName)")
-            it.startsWith("@android:string/") -> code("resources.getString(android.R.string.$resName)")
-            else -> code("\$S", it)
+            value.startsWith("@string/") -> code("resources.getString(R.string.$resName)")
+            value.startsWith("@android:string/") -> code("resources.getString(android.R.string.$resName)")
+            else -> code("\$S", value)
         }
     }
 
-    fun float(it: String): CodeBlock? {
-        return code(it + "f")
+    fun float(value: String): CodeBlock? {
+        return code(value + "f")
     }
 
-    fun int(it: String): CodeBlock? {
-        return code(it)
+    fun int(value: String): CodeBlock? {
+        return code(value)
     }
 
-    fun color(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun color(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it.startsWith("@color/") -> code("resources.getColor(R.color.$resName)")
-            it.startsWith("@android:color/") -> code("resources.getColor(android.R.color.$resName)")
-            it.startsWith("#") -> code("\$T.parseColor(\$S)", ClassName.get("android.graphics", "Color"), it)
+            value.startsWith("@color/") -> code("resources.getColor(R.color.$resName)")
+            value.startsWith("@android:color/") -> code("resources.getColor(android.R.color.$resName)")
+            value.startsWith("#") -> code("\$T.parseColor(\$S)", ClassName.get("android.graphics", "Color"), value)
             else -> null
         }
     }
 
-    fun drawable(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun colorStateList(value: String): CodeBlock? {
+        val cColorStateList = ClassName.get("android.content.res", "ColorStateList")
+        return code("\$T.valueOf(\$L)", cColorStateList, color(value))
+    }
+
+    fun stateListAnimator(value: String): CodeBlock? {
+        val cAnimatorInflater = ClassName.get("android.animation", "AnimatorInflater")
+        return code("\$T.loadStateListAnimator(context, \$L)", cAnimatorInflater, id(value))
+    }
+
+    fun drawable(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it == "@null" -> code("null")
-            it.startsWith("@drawable") -> code("resources.getDrawable(R.drawable.$resName)")
-            it.startsWith("@android:drawable") -> code("resources.getDrawable(android.R.drawable.$resName)")
-            it.startsWith("@mipmap") -> code("resources.getDrawable(R.mipmap.$resName)")
-            it.startsWith("@android:mipmap") -> code("resources.getDrawable(android.R.mipmap.$resName)")
-            it.startsWith("?") -> code("resources.getDrawable(\$T.getResourceIdFromAttr(\$L))",
-                    ClassName.get("dev.android.x2j", "X2J"), attrId(it))
-            else -> color(it)?.let { code("new \$T($it)", ClassName.get("android.graphics.drawable", "ColorDrawable")) }
+            value == "@null" -> code("null")
+            value.startsWith("@drawable") -> code("resources.getDrawable(R.drawable.$resName)")
+            value.startsWith("@android:drawable") -> code("resources.getDrawable(android.R.drawable.$resName)")
+            value.startsWith("@mipmap") -> code("resources.getDrawable(R.mipmap.$resName)")
+            value.startsWith("@android:mipmap") -> code("resources.getDrawable(android.R.mipmap.$resName)")
+            value.startsWith("?") -> code("resources.getDrawable(\$T.getResourceIdFromAttr(\$L))", Codes.Utils, attrId(value))
+            else -> color(value)?.let { code("new \$T($value)", ClassName.get("android.graphics.drawable", "ColorDrawable")) }
         }
     }
 
-    fun bool(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun bool(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it == "true" || it == "false" -> code(it)
-            it.startsWith("@bool") -> code("resources.getBoolean(R.bool.$resName)")
-            it.startsWith("@android:bool") -> code("resources.getBoolean(android.R.bool.$resName)")
+            value == "true" || value == "false" -> code(value)
+            value.startsWith("@bool") -> code("resources.getBoolean(R.bool.$resName)")
+            value.startsWith("@android:bool") -> code("resources.getBoolean(android.R.bool.$resName)")
             else -> null
         }
     }
 
-    fun layoutId(it: String): CodeBlock? {
-        val resName = getResourceName(it)
+    fun layoutId(value: String): CodeBlock? {
+        val resName = getResourceName(value)
         return when {
-            it.startsWith("@layout") -> code("R.layout.$resName")
-            it.startsWith("@android:layout") -> code("android.R.layout.$resName")
+            value.startsWith("@layout") -> code("R.layout.$resName")
+            value.startsWith("@android:layout") -> code("android.R.layout.$resName")
             else -> null
         }
     }
 
-    fun dimen(it: String): CodeBlock? {
-        val resName = it.substring(it.lastIndexOf("/") + 1)
+    fun dimen(value: String): CodeBlock? {
+        val resName = value.substring(value.lastIndexOf("/") + 1)
         return when {
-            it.startsWith("@dimen/") -> code("R.dimen.$resName")
-            it.startsWith("@android:dimen/") -> code("android.R.dimen.$resName")
-            it.startsWith("0") -> code("0")
-            it.endsWith("px") -> code(it.substringBefore("px"))
-            it.endsWith("dp") || it.endsWith("dip") -> applyDimension(it.substringBefore("d"), "DIP")
-            it.endsWith("sp") -> applyDimension(it.substringBefore("sp"), "SP")
-            it.endsWith("pt") -> applyDimension(it.substringBefore("pt"), "PT")
-            it.endsWith("in") -> applyDimension(it.substringBefore("in"), "IN")
-            it.endsWith("mm") -> applyDimension(it.substringBefore("mm"), "MM")
+            value.startsWith("@dimen/") -> code("R.dimen.$resName")
+            value.startsWith("@android:dimen/") -> code("android.R.dimen.$resName")
+            value.startsWith("0") -> code("0")
+            value.endsWith("px") -> code(value.substringBefore("px"))
+            value.endsWith("dp") || value.endsWith("dip") -> applyDimension(value.substringBefore("d"), "DIP")
+            value.endsWith("sp") -> applyDimension(value.substringBefore("sp"), "SP")
+            value.endsWith("pt") -> applyDimension(value.substringBefore("pt"), "PT")
+            value.endsWith("in") -> applyDimension(value.substringBefore("in"), "IN")
+            value.endsWith("mm") -> applyDimension(value.substringBefore("mm"), "MM")
             else -> null
         }
     }
 
-    private fun getResourceName(it: String): String {
-        return it.substring(it.lastIndexOf("/") + 1)
+    private fun getResourceName(value: String): String {
+        return value.substring(value.lastIndexOf("/") + 1)
     }
 
-    private fun applyDimension(it: String, unit: String): CodeBlock {
-        return code("(int) Typedit.applyDimension(\$T.COMPLEX_UNIT_$unit, \$L, displayMetrics)",
-                ClassName.get("android.util", "TypedValue"), it)
+    private fun applyDimension(value: String, unit: String): CodeBlock {
+        return code("(int) \$T.applyDimension(\$T.COMPLEX_UNIT_$unit, \$L, displayMetrics)",
+                Codes.TypedValue, Codes.TypedValue, value)
     }
 
-    fun size(it: String): CodeBlock? {
+    fun size(value: String): CodeBlock? {
         val cLayoutParams = ClassName.get("android.view", "ViewGroup", "LayoutParams")
-        return when (it) {
+        return when (value) {
             "match_parent", "fill_parent" -> CodeBlock.of("\$T.MATCH_PARENT", cLayoutParams)
             "wrap_content" -> CodeBlock.of("\$T.WRAP_CONTENT", cLayoutParams)
-            else -> dimen(it)
+            else -> dimen(value)
         }
     }
 
-    fun visibility(it: String): CodeBlock? {
+    fun visibility(value: String): CodeBlock? {
         val cView = ClassName.get("android.view", "View")
-        return when (it) {
+        return when (value) {
             "visible" -> CodeBlock.of("\$T.VISIBLE", cView)
             "invisible" -> CodeBlock.of("\$T.INVISIBLE", cView)
             "gone" -> CodeBlock.of("\$T.GONE", cView)
@@ -168,11 +182,18 @@ interface IView {
         }
     }
 
-    fun gravity(it: String): CodeBlock? {
-        val cGravity = ClassName.get("android.view", "Gravity")
-        val gravities = it.split("|")
-        return CodeBlock.of(gravities.joinToString("|") { gravity ->
-            when (gravity) {
+    fun or(value: String, factory: (String) -> CodeBlock?): CodeBlock {
+        return value.split("|")
+                .fold(CodeBlock.builder().add("0")) { codes, item ->
+                    factory.invoke(item)?.let { codes.add("|").add(it) }
+                    codes
+                }
+                .build()
+    }
+
+    fun gravity(value: String): CodeBlock? {
+        return or(value) { item ->
+            code(when (item) {
                 "start" -> "\$T.START"
                 "end" -> "\$T.END"
                 "left" -> "\$T.LEFT"
@@ -188,13 +209,13 @@ interface IView {
                 "clip_vertical" -> "\$T.CLIP_VERTICAL"
                 "clip_horizontal" -> "\$T.CLIP_HORIZONTAL"
                 else -> "\$T.LEFT"
-            }
-        }, *Array(gravities.size) { cGravity })
+            }, ClassName.get("android.view", "Gravity"))
+        }
     }
 
-    fun orientation(it: String): CodeBlock? {
+    fun orientation(value: String): CodeBlock? {
         val cLinearLayout = ClassName.get("android.widget", "LinearLayout")
-        return when (it) {
+        return when (value) {
             "horizontal" -> LinearLayout.code("\$T.HORIZONTAL", cLinearLayout)
             "vertical" -> LinearLayout.code("\$T.VERTICAL", cLinearLayout)
             else -> null

@@ -17,7 +17,7 @@ class LayoutTranslator(private val packageName: String) {
     fun translate(xmlFile: File, layoutId: Int) {
         val source = StringBuilder()
         JavaFile.builder("dev.android.x2j", TypeSpec.classBuilder("X2J_$layoutId")
-                .addSuperinterface(ClassName.get("dev.android.x2j", "X2J", "ViewCreator"))
+                .addSuperinterface(Codes.X2J.nestedClass("ViewCreator"))
                 .addJavadoc("Automatically generated file. DO NOT MODIFY.\n")
                 .addJavadoc("Translate from {@link \$T.layout.${xmlFile.nameWithoutExtension}}\n", ClassName.get(packageName, "R"))
                 .addMethod(MethodSpec.methodBuilder("createView")
