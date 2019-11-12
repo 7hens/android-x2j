@@ -113,7 +113,7 @@ object View : IView {
             .add("transitionX") { line("$view.setTransitionX(\$L)", dimen(it)) }
             .add("transitionY") { line("$view.setTransitionY(\$L)", dimen(it)) }
             .add("transitionZ") { line("$view.setTransitionZ(\$L)", dimen(it)) }
-            .add("visibility") { line("$view.setVisibility(\$L)", visibility(it)) }
+            .add("visibility") { line("$view.setVisibility(\$T.\$L)", cView, constant(it)) }
             .build() + AttrParser.builder()
             .add(AttrParser.END) { end() }
             .build()

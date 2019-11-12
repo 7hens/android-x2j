@@ -195,17 +195,6 @@ interface IView {
         }
     }
 
-    fun visibility(value: String): CodeBlock? {
-        val cView = ClassName.get("android.view", "View")
-        return when (value) {
-            "visible" -> CodeBlock.of("\$T.VISIBLE", cView)
-            "invisible" -> CodeBlock.of("\$T.INVISIBLE", cView)
-            "gone" -> CodeBlock.of("\$T.GONE", cView)
-            else -> null
-        }
-    }
-
-
     fun gravity(value: String): CodeBlock? {
         return or(value) { item ->
             code("\$T.\$L", ClassName.get("android.view", "Gravity"), constant(item))

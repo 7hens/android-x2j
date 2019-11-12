@@ -48,5 +48,9 @@ interface AttrParser {
         fun androidBuilder() = builder("android:")
 
         fun appBuilder() = builder("app:")
+
+        fun xmlnsBuilder() = builder("xmlns:")
+
+        fun toolsBuilder() = builder("tools:")
     }
 }

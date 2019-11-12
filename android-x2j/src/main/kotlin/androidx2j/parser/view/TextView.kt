@@ -8,6 +8,7 @@ import com.squareup.javapoet.ClassName
  */
 object TextView : IView {
     override val myParser: AttrParser = View.myParser + AttrParser.androidBuilder()
+            .add("gravity") { line("$view.setGravity(\$L)", gravity(it)) }
             .add("text") { line("$view.setText(\$L)", string(it)) }
             .add("textColor") { line("$view.setTextColor(\$L)", color(it)) }
             .add("textSize") {

@@ -3,7 +3,6 @@ package androidx2j.parser
 import androidx2j.parser.view.*
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.CodeBlock
-import com.squareup.javapoet.MethodSpec
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 import java.util.*
@@ -11,14 +10,14 @@ import java.util.*
 /**
  * @author 7hens
  */
-class XmlParser(private val method: MethodSpec.Builder) : DefaultHandler() {
+class XmlParser(private val codes: CodeBlock.Builder) : DefaultHandler() {
     private val stack = Stack<XmlNode>()
     private var nodeIndex = 1
 
     init {
         val cResources = ClassName.get("android.content.res", "Resources")
         val cDisplayMetrics = ClassName.get("android.util", "DisplayMetrics")
-        method.addStatement("final \$T resources = context.getResources()", cResources)
+        codes.addStatement("final \$T resources = context.getResources()", cResources)
                 .addStatement("final \$T displayMetrics = resources.getDisplayMetrics()", cDisplayMetrics)
     }
 
@@ -34,46 +33,52 @@ class XmlParser(private val method: MethodSpec.Builder) : DefaultHandler() {
         val parentLayoutType = parentType.nestedClass("LayoutParams")
         line("\$T \$L = new \$T(0, 0)", parentLayoutType, node.layout, parentLayoutType)
 
-        method.addCode(parse(node))
+        codes.add(parse(node))
     }
 
     override fun endElement(uri: String, localName: String, qName: String) {
         super.endElement(uri, localName, qName)
         val node = stack.pop()
         if (stack.isEmpty()) {
-            method.addCode("\n")
+            codes.add("\n")
                     .addStatement("return ${node.view}")
         } else {
             val parent = stack.peek()
-            method.addStatement("\$L.setLayoutParams(\$L)", node.view, node.layout)
+            codes.addStatement("\$L.setLayoutParams(\$L)", node.view, node.layout)
                     .addStatement("${parent.view}.addView(${node.view})")
         }
     }
 
     private fun line(format: String = "", vararg args: Any?) {
         if (format.isEmpty()) {
-            method.addCode("\n")
+            codes.add("\n")
         } else {
-            method.addStatement(format, *args)
+            codes.addStatement(format, *args)
         }
     }
 
     private fun parse(node: XmlNode): CodeBlock? {
         val parser = getParser(node)
         val attributes = node.attributes
-        val codeBuilder = CodeBlock.builder()
+        val codes = CodeBlock.builder()
+
+        val style = attributes.getValue("style")
+        if (!style.isNullOrEmpty()) {
+            codes.add(StyleParser.parse(parser, node, getStyleName(style)))
+        }
+
         for (i in 0 until attributes.length) {
             val name = attributes.getQName(i)
             val value = attributes.getValue(i)
             val code = parser.parse(node, name, value)
             if (code != null) {
-                codeBuilder.add(code)
-            } else {
-                codeBuilder.add("// $name=\"$value\"\n")
+                codes.add(code)
+            } else if (!name.startsWith("tools:") && !name.startsWith("xmlns:") && name != "style") {
+                codes.add("// $name=\"$value\"\n")
             }
         }
-        parser.parse(node, AttrParser.END, "")?.let { codeBuilder.add(it) }
-        return codeBuilder.build()
+        parser.parse(node, AttrParser.END, "")?.let { codes.add(it) }
+        return codes.build()
     }
 
     private val viewMap = mapOf(
@@ -93,5 +98,12 @@ class XmlParser(private val method: MethodSpec.Builder) : DefaultHandler() {
         val view = viewMap[node.tagName] ?: View
         val viewParent = node.parent?.run { viewMap[tagName] as? IView.Parent } ?: ViewGroup
         return view.parser(viewParent)
+    }
+
+    private fun getStyleName(value: String): String {
+        return when {
+            value.startsWith("@style") -> value.substring(value.lastIndexOf("/") + 1)
+            else -> ""
+        }
     }
 }

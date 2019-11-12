@@ -1,9 +1,6 @@
 package androidx2j.parser
 
-import com.squareup.javapoet.ClassName
-import com.squareup.javapoet.JavaFile
-import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.TypeSpec
+import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
 import javax.xml.parsers.SAXParserFactory
@@ -25,8 +22,10 @@ class LayoutTranslator(private val packageName: String) {
                         .addParameter(ClassName.get("android.content", "Context"), "context")
                         .returns(ClassName.get("android.view", "View"))
                         .also { method ->
+                            val codes = CodeBlock.builder()
                             val parser = SAXParserFactory.newInstance().newSAXParser()
-                            parser.parse(xmlFile, XmlParser(method))
+                            parser.parse(xmlFile, XmlParser(codes))
+                            method.addCode(codes.build())
                         }
                         .build())
                 .build())
@@ -34,6 +33,5 @@ class LayoutTranslator(private val packageName: String) {
                 .build()
                 .writeTo(source)
         println(source)
-
     }
 }
