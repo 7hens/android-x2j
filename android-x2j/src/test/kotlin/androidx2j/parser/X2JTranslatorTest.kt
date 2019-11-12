@@ -6,13 +6,14 @@ import java.io.File
 /**
  * @author 7hens
  */
-class LayoutTranslatorTest {
+class X2JTranslatorTest {
     @Test
     fun test() {
         StyleParser.load(File("../sample/src/main/res/values/styles.xml"))
-
         val xmlFile = File("../sample/src/main/res/layout/activity_main.xml")
-        val translator = LayoutTranslator("androidxj2.sample")
-        translator.translate(xmlFile, 123)
+        val translator = X2JTranslator("androidxj2.sample")
+        val builder = StringBuilder()
+        translator.translate(xmlFile, 123, builder)
+        println(builder.toString())
     }
 }

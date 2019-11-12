@@ -9,7 +9,7 @@ import javax.xml.parsers.SAXParserFactory
 /**
  * @author 7hens
  */
-object StyleParser : DefaultHandler() {
+object StyleParser {
     private val styles = mutableMapOf<String, StyleNode>()
 
     fun load(file: File) {
@@ -78,7 +78,7 @@ object StyleParser : DefaultHandler() {
 
     }
 
-    data class StyleNode(
+    private data class StyleNode(
             val name: String,
             val parentName: String?,
             val attributes: MutableMap<String, String> = hashMapOf()

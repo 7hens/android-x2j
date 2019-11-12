@@ -24,7 +24,7 @@ class X2JClassConverter(private val classPool: ClassPool) {
             val cView = classPool.get("android.view.View")
             val cViewGroup = classPool.get("android.view.ViewGroup")
             val cLayoutInflater = classPool.get("android.view.LayoutInflater")
-            val cX2J = classPool.get("androidx2j.X2J")
+            val cX2J = classPool.get("dev.android.x2j.X2J")
 
             redirectMethodInvokeToStatic(
                     cActivity.getDeclaredMethod("setContentView", arrayOf(cInt)),

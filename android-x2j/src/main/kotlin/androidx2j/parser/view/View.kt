@@ -1,7 +1,6 @@
 package androidx2j.parser.view
 
 import androidx2j.parser.AttrParser
-import androidx2j.parser.Codes
 import androidx2j.parser.XmlNode
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.CodeBlock
@@ -12,7 +11,7 @@ import com.squareup.javapoet.CodeBlock
  * @author 7hens
  */
 object View : IView {
-    private val cView = Codes.View
+    private val cView = ClassName.get("android.view", "View")
     private var paddingLeft: CodeBlock? = null
     private var paddingTop: CodeBlock? = null
     private var paddingRight: CodeBlock? = null
@@ -66,7 +65,7 @@ object View : IView {
             .add("nextFocusLeft") { line("$view.setNextFocusLeftId(\$L)", id(it)) }
             .add("nextFocusRight") { line("$view.setNextFocusRightId(\$L)", id(it)) }
             .add("nextFocusUp") { line("$view.setNextFocusUpId(\$L)", id(it)) }
-            .add("onClick") { line("$view.setOnClickListener(\$T.onClickListener($view, \$L))", Codes.Utils, string(it)) }
+            .add("onClick") { line("$view.setOnClickListener(X2J.onClickListener($view, \$L))", string(it)) }
             .add("outlineAmbientShadowColor") { line("$view.setOutlineAmbientShadowColor(\$L)", color(it)) }
             .add("outlineSpotShadowColor") { line("$view.setOutlineSpotShadowColor(\$L)", color(it)) }
             .add("padding") { padding(dimen(it), true) }

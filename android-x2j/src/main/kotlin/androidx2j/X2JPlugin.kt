@@ -1,7 +1,9 @@
 package androidx2j
 
 import android.databinding.tool.ext.toCamelCase
+import androidx2j.parser.X2JTranslator
 import com.android.build.gradle.AppExtension
+import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
 import com.android.utils.FileUtils
@@ -31,28 +33,16 @@ class X2JPlugin : Plugin<Project> {
                     .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
                     .forEach { layoutFiles[it.nameWithoutExtension] = it }
 
-            val containsKapt = project.plugins.findPlugin("kotlin-kapt") != null
-            val apt = if (containsKapt) "kapt" else "annotationProcessor"
-            val x2cVersion = "-SNAPSHOT"
-            project.configurations.getByName(apt).dependencies
-                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
-            project.configurations.getByName("implementation").dependencies
-                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-lib:$x2cVersion"))
-            if (android.dataBinding.isEnabled) {
-                project.configurations.getByName("implementation").dependencies
-                        .add(project.dependencies.create("com.github.7hens.X2C:x2c-binding:$x2cVersion"))
-            }
-
             android.registerTransform(X2JTransform(android))
 
             project.afterEvaluate {
                 if (android is AppExtension) {
                     android.applicationVariants.forEach {
-                        generateX2J(project, it)
+                        generateX2J(project, android, it)
                     }
                 } else if (android is LibraryExtension) {
                     android.libraryVariants.forEach {
-                        generateX2J(project, it)
+                        generateX2J(project, android, it)
                     }
                 }
             }
@@ -61,7 +51,7 @@ class X2JPlugin : Plugin<Project> {
         }
     }
 
-    private fun generateX2J(project: Project, variant: BaseVariant) {
+    private fun generateX2J(project: Project, android: BaseExtension, variant: BaseVariant) {
         val variantName = variant.name
         val applicationId = variant.applicationId
         val outputRootDir = File(project.buildDir, "generated/source/apt/$variantName")
@@ -70,7 +60,9 @@ class X2JPlugin : Plugin<Project> {
             group = "build"
             doLast {
                 println(LOG_TAG + "generate X2J file")
-                val x2jFile = File(outputRootDir, "androidx2j/X2J.java")
+                X2JTranslator.start(android, variant, outputRootDir)
+
+                val x2jFile = File(outputRootDir, "dev/android/x2j/X2J.java")
                 x2jFile.parentFile.mkdirs()
                 x2jFile.delete()
                 x2jFile.outputStream().writer().use { writer ->
