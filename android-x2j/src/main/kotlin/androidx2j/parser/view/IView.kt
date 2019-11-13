@@ -19,7 +19,7 @@ interface IView {
         return null
     }
 
-    fun parser(parent: Parent): AttrParser {
+    fun getParser(parent: Parent): AttrParser {
         return object : AttrParser {
             override fun parse(node: XmlNode, name: String, value: String): CodeBlock? {
                 if (name == AttrParser.END) {
