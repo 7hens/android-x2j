@@ -9,8 +9,44 @@ import com.squareup.javapoet.CodeBlock
 object ViewGroup : IView, IView.Parent {
 
     override val myParser = View.myParser + AttrParser.androidBuilder()
+            .add("android:addStatesFromChildren") {
+                // setLayoutTransition(LayoutTransition)
+                todo()
+            }
+            .add("android:alwaysDrawnWithCache") {
+                // setLayoutTransition(LayoutTransition)
+                todo()
+            }
+            .add("android:animateLayoutChanges") {
+                // setLayoutTransition(LayoutTransition)
+                todo()
+            }
+            .add("android:animationCache") {
+                // setClipChildren(boolean)
+                todo()
+            }
             .add("clipChildren") { line("$view.setClipChildren(\$L)", bool(it)) }
             .add("clipToPadding") { line("$view.setClipToPadding(\$L)", bool(it)) }
+            .add("android:descendantFocusability") {
+                // setLayoutMode(int)
+                todo()
+            }
+            .add("android:layoutAnimation") {
+                // setLayoutMode(int)
+                todo()
+            }
+            .add("android:layoutMode") {
+                // setLayoutMode(int)
+                todo()
+            }
+            .add("android:persistentDrawingCache") {
+                // setMotionEventSplittingEnabled(boolean)
+                todo()
+            }
+            .add("android:splitMotionEvents") {
+                // setMotionEventSplittingEnabled(boolean)
+                todo()
+            }
             .build()
 
     override val childParser = AttrParser.androidBuilder()

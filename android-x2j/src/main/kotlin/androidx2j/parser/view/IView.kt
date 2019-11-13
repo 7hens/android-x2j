@@ -165,6 +165,15 @@ interface IView {
         }
     }
 
+    fun anim(value: String): CodeBlock? {
+        val resName = getResourceName(value)
+        return when {
+            value.startsWith("@anim/") -> code("R.anim.$resName")
+            value.startsWith("@android:anim/") -> code("android.R.anim.$resName")
+            else -> null
+        }
+    }
+
     fun dimen(value: String): CodeBlock? {
         val resName = value.substring(value.lastIndexOf("/") + 1)
         return when {
