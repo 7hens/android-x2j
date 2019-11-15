@@ -54,7 +54,7 @@ object ViewGroup : IView, IView.Parent {
             .add("layout_height") { line("$layout.height = \$L", size(it)) }
             .add("layout_margin") {
                 val v = dimen(it)
-                code("$layout.setMargins(\$L, \$L, \$L, \$L)", v, v, v, v)
+                line("$layout.setMargins(\$L, \$L, \$L, \$L)", v, v, v, v)
             }
             .add("layout_marginHorizontal") {
                 val v = dimen(it)

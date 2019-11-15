@@ -99,8 +99,8 @@ interface IView {
     fun string(value: String): CodeBlock? {
         val resName = getResourceName(value)
         return when {
-            value.startsWith("@string/") -> code("resources.getString(R.string.$resName)")
-            value.startsWith("@android:string/") -> code("resources.getString(android.R.string.$resName)")
+            value.startsWith("@string/") -> code("context.getString(R.string.$resName)")
+            value.startsWith("@android:string/") -> code("context.getString(android.R.string.$resName)")
             else -> code("\$S", value)
         }
     }
@@ -116,8 +116,8 @@ interface IView {
     fun color(value: String): CodeBlock? {
         val resName = getResourceName(value)
         return when {
-            value.startsWith("@color/") -> code("resources.getColor(R.color.$resName)")
-            value.startsWith("@android:color/") -> code("resources.getColor(android.R.color.$resName)")
+            value.startsWith("@color/") -> code("context.getColor(R.color.$resName)")
+            value.startsWith("@android:color/") -> code("context.getColor(android.R.color.$resName)")
             value.startsWith("#") -> code("\$T.parseColor(\$S)", ClassName.get("android.graphics", "Color"), value)
             else -> null
         }
@@ -138,11 +138,11 @@ interface IView {
         val cColorDrawable = ClassName.get("android.graphics.drawable", "ColorDrawable")
         return when {
             value == "@null" -> code("null")
-            value.startsWith("@drawable/") -> code("resources.getDrawable(R.drawable.$resName)")
-            value.startsWith("@android:drawable/") -> code("resources.getDrawable(android.R.drawable.$resName)")
-            value.startsWith("@mipmap/") -> code("resources.getDrawable(R.mipmap.$resName)")
-            value.startsWith("@android:mipmap/") -> code("resources.getDrawable(android.R.mipmap.$resName)")
-            value.startsWith("?") -> code("resources.getDrawable(\$L)", resId(value))
+            value.startsWith("@drawable/") -> code("context.getDrawable(R.drawable.$resName)")
+            value.startsWith("@android:drawable/") -> code("context.getDrawable(android.R.drawable.$resName)")
+            value.startsWith("@mipmap/") -> code("context.getDrawable(R.mipmap.$resName)")
+            value.startsWith("@android:mipmap/") -> code("context.getDrawable(android.R.mipmap.$resName)")
+            value.startsWith("?") -> code("context.getDrawable(\$L)", resId(value))
             else -> color(value)?.let { code("new \$T(\$L)", cColorDrawable, it) }
         }
     }
@@ -166,7 +166,7 @@ interface IView {
         }
     }
 
-    fun anim(value: String): CodeBlock? {
+    fun animId(value: String): CodeBlock? {
         val resName = getResourceName(value)
         return when {
             value.startsWith("@anim/") -> code("R.anim.$resName")
@@ -178,8 +178,9 @@ interface IView {
     fun dimen(value: String): CodeBlock? {
         val resName = value.substring(value.lastIndexOf("/") + 1)
         return when {
-            value.startsWith("@dimen/") -> code("R.dimen.$resName")
-            value.startsWith("@android:dimen/") -> code("android.R.dimen.$resName")
+            value.startsWith("@dimen/") -> code("(int) resources.getDimension(R.dimen.$resName)")
+            value.startsWith("@android:dimen/") -> code("(int) resources.getDimension(android.R.dimen.$resName)")
+            value.startsWith("?") -> code("(int) resources.getDimension(\$L)", resId(value))
             value.startsWith("0") -> code("0")
             value.endsWith("px") -> code(value.substringBefore("px"))
             value.endsWith("dp") || value.endsWith("dip") -> applyDimension(value.substringBefore("d"), "DIP")

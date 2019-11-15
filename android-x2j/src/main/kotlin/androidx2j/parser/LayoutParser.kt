@@ -1,5 +1,6 @@
 package androidx2j.parser
 
+import androidx2j.parser.view.View
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.CodeBlock
 import org.xml.sax.Attributes
@@ -36,7 +37,13 @@ object LayoutParser {
             stack.push(node)
 
             line()
-            line("\$T \$L = new \$T(context)", node.viewType, node.view, node.viewType)
+            if (qName != "include") {
+                line("\$T \$L = new \$T(context)", node.viewType, node.view, node.viewType)
+            } else {
+                val cView = ClassName.get("android.view", "View")
+                line("\$T \$L = X2J.inflate(context, \$L, null)",
+                        cView, node.view, View.layoutId(attributes.getValue("layout")))
+            }
 
             val parentType = node.parent?.viewType ?: ClassName.get("android.widget", "FrameLayout")
             val parentLayoutType = parentType.nestedClass("LayoutParams")

@@ -1,5 +1,6 @@
 package androidx2j.parser
 
+import androidx2j.MyLogger
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.BaseVariant
 import com.squareup.javapoet.ClassName
@@ -54,12 +55,16 @@ class X2JTranslator(private val packageName: String) {
 
             val translator = X2JTranslator(variant.applicationId)
             val parentDir = File(outputDir, "dev/android/x2j")
-            parentDir.deleteRecursively()
             parentDir.mkdirs()
             layoutFiles.forEach { file ->
                 val layoutId = rMap[file.nameWithoutExtension]!!
                 File(parentDir, "X2J_$layoutId.java").writer().use { output ->
-                    translator.translate(file, layoutId, output)
+                    try {
+                        translator.translate(file, layoutId, output)
+                    } catch (e: Throwable) {
+                        MyLogger.error("translate error: #$layoutId $file")
+                        MyLogger.error(e)
+                    }
                 }
             }
         }
