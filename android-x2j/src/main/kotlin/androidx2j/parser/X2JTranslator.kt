@@ -52,10 +52,9 @@ class X2JTranslator(private val packageName: String) {
             val translator = X2JTranslator(variant.applicationId)
             val parentDir = File(outputDir, "dev/android/x2j")
             parentDir.mkdirs()
+            parentDir.deleteRecursively()
             layoutFiles.forEachIndexed { index, file ->
-                val outputFile = File(parentDir, "X2J_$index.java")
-                outputFile.delete()
-                outputFile.writer().use { output ->
+                File(parentDir, "X2J_$index.java").writer().use { output ->
                     translator.translate(file, index, output)
                 }
             }

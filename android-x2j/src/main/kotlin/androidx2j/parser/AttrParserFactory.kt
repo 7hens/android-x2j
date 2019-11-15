@@ -8,6 +8,7 @@ import androidx2j.parser.view.*
 object AttrParserFactory {
     private val viewMap = mapOf(
             "AbsoluteLayout" to ViewGroup,
+            "AdapterViewFlipper" to AdapterViewFlipper,
             "ActionMenuView" to LinearLayout,
             "AnalogClock" to AnalogClock,
             "AppWidgetHostView" to FrameLayout,
@@ -69,6 +70,7 @@ object AttrParserFactory {
             "ViewAnimator" to ViewAnimator,
             "ViewFlipper" to ViewFlipper,
             "ViewGroup" to ViewGroup,
+            "ViewStub" to ViewStub,
             "ViewSwitcher" to ViewAnimator,
             "WebView" to ViewGroup,
             "ZoomButton" to ImageView,

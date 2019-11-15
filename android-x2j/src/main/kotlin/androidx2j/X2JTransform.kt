@@ -5,8 +5,8 @@ import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.google.common.io.Files
 import com.android.utils.FileUtils
+import com.google.common.io.Files
 import javassist.ClassPool
 import javassist.LoaderClassPath
 import java.io.File
@@ -29,7 +29,7 @@ class X2JTransform(private val android: BaseExtension) : Transform() {
 
     override fun transform(transformInvocation: TransformInvocation) {
         super.transform(transformInvocation)
-        println(X2JPlugin.LOG_TAG + "transform start")
+        MyLogger.log("transform start")
         val outputProvider = transformInvocation.outputProvider
         transformInvocation.inputs.asSequence()
                 .flatMap { it.directoryInputs.asSequence() + it.jarInputs }

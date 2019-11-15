@@ -17,12 +17,12 @@ class X2JPlugin : Plugin<Project> {
     private var isAndroidLibrary = false
 
     override fun apply(project: Project) {
-        println(LOG_TAG + "hello, android-x2j")
+        MyLogger.log("hello, android-x2j")
         try {
             val androidApp = project.extensions.findByType(AppExtension::class.java)
             val androidLib = project.extensions.findByType(LibraryExtension::class.java)
             val android = androidApp ?: androidLib ?: run {
-                System.err.println(LOG_TAG + "not a android module")
+                MyLogger.error("not a android module")
                 return
             }
             isAndroidLibrary = androidLib != null
@@ -59,7 +59,7 @@ class X2JPlugin : Plugin<Project> {
         val genX2JTask = project.tasks.create("generate${variantName.toCamelCase()}X2J") {
             group = "build"
             doLast {
-                println(LOG_TAG + "generate X2J file")
+                MyLogger.log("generate X2J file")
                 X2JTranslator.start(android, variant, outputRootDir)
 
                 val x2jFile = File(outputRootDir, "dev/android/x2j/X2J.java")
@@ -77,7 +77,7 @@ class X2JPlugin : Plugin<Project> {
         variant.registerJavaGeneratingTask(genX2JTask, outputRootDir)
 
         project.tasks.getByName("generate${variantName.toCamelCase()}Sources").doLast {
-            println(LOG_TAG + "generate R file")
+            MyLogger.log("generate R file")
             val rFilePath = applicationId.replace(".", "/") + "/R.java"
             val rFile = File(project.buildDir, "generated/source/r/$variantName/$rFilePath")
             val rFile2 = File(project.buildDir, "generated/not_namespaced_r_class_sources/$variantName/r/$rFilePath")
@@ -96,16 +96,11 @@ class X2JPlugin : Plugin<Project> {
                         }
                     }
                 }
-                println(LOG_TAG + "create R file success")
+                MyLogger.log("create R file success")
             } else {
-                System.err.println(LOG_TAG + "R file not found, $rFile; $rFile2")
+                MyLogger.log("R file not found, $rFile; $rFile2")
             }
         }
-
-    }
-
-    companion object {
-        const val LOG_TAG = "@(android-x2j): "
     }
 }
 
