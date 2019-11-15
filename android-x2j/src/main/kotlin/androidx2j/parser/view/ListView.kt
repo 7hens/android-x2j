@@ -5,23 +5,23 @@ import androidx2j.parser.AttrParser
 
 object ListView : IView {
     override val myParser = AbsListView.myParser + AttrParser.androidBuilder()
-        .add("android:divider") {
+        .add("divider") {
             // setDivider(Drawable)
             todo()
         }
-        .add("android:dividerHeight") {
+        .add("dividerHeight") {
             // 
             todo()
         }
-        .add("android:entries") {
+        .add("entries") {
             // 
             todo()
         }
-        .add("android:footerDividersEnabled") {
+        .add("footerDividersEnabled") {
             // 
             todo()
         }
-        .add("android:headerDividersEnabled") {
+        .add("headerDividersEnabled") {
             // 
             todo()
         }

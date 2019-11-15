@@ -6,7 +6,6 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
-import com.android.utils.FileUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
@@ -53,39 +52,29 @@ class X2JPlugin : Plugin<Project> {
 
     private fun generateX2J(project: Project, android: BaseExtension, variant: BaseVariant) {
         val variantName = variant.name
+        val yaVariantName = variantName.toCamelCase()
         val applicationId = variant.applicationId
-        val outputRootDir = File(project.buildDir, "generated/source/apt/$variantName")
+        val rJavaDir = getRJavaDir(project, variant)
+        val outputRootDir = getJavaOutputDir(project, variant)
 
-        val genX2JTask = project.tasks.create("generate${variantName.toCamelCase()}X2J") {
+        val genX2JTask = project.tasks.create("generate${yaVariantName}X2J") {
             group = "build"
             doLast {
-                MyLogger.log("generate X2J file")
-                X2JTranslator.start(android, variant, outputRootDir)
+                MyLogger.log("generate X2J files")
+
+                val rFilePath = applicationId.replace(".", "/") + "/R.java"
+                val rFile = File(rJavaDir, rFilePath)
+                X2JTranslator.start(android, variant, rFile, outputRootDir)
 
                 val x2jFile = File(outputRootDir, "dev/android/x2j/X2J.java")
                 x2jFile.parentFile.mkdirs()
                 x2jFile.delete()
                 x2jFile.outputStream().writer().use { writer ->
-                    val layouts = layoutFiles.keys.joinToString(", ") { "\"$it\"" }
                     writer.write(X2J_CODE
-                            .replace("\"o_0_layouts\"", layouts)
                             .replace("o_0_applicationId", applicationId)
                             .replace("o_0_isAndroidLibrary", "" + isAndroidLibrary))
                 }
-            }
-        }
-        variant.registerJavaGeneratingTask(genX2JTask, outputRootDir)
 
-        project.tasks.getByName("generate${variantName.toCamelCase()}Sources").doLast {
-            MyLogger.log("generate R file")
-            val rFilePath = applicationId.replace(".", "/") + "/R.java"
-            val rFile = File(project.buildDir, "generated/source/r/$variantName/$rFilePath")
-            val rFile2 = File(project.buildDir, "generated/not_namespaced_r_class_sources/$variantName/r/$rFilePath")
-            if (rFile.exists() || rFile2.exists()) {
-                if (!rFile.exists()) {
-                    rFile.parentFile.mkdirs()
-                    FileUtils.copyFile(rFile2, rFile)
-                }
                 if (isAndroidLibrary) {
                     val r2File = File(outputRootDir, rFilePath.replace("R.java", "R2.java"))
                     rFile.inputStream().reader().use { reader ->
@@ -96,10 +85,29 @@ class X2JPlugin : Plugin<Project> {
                         }
                     }
                 }
-                MyLogger.log("create R file success")
-            } else {
-                MyLogger.log("R file not found, $rFile; $rFile2")
             }
+        }
+        variant.registerJavaGeneratingTask(genX2JTask, outputRootDir)
+    }
+
+    private fun getRJavaDir(project: Project, variant: BaseVariant): File {
+        val yaVariantName = variant.name.toCamelCase()
+        return project.tasks.getByName("process${yaVariantName}Resources").outputs.files.files
+                .first { it.absolutePath.contains("generated") && it.name == "r" }
+    }
+
+    private fun getJavaOutputDir(project: Project, variant: BaseVariant): File {
+        val yaVariantName = variant.name.toCamelCase()
+        return project.tasks.getByName("compile${yaVariantName}JavaWithJavac").outputs.files.files
+                .first { it.absolutePath.contains("generated")  }
+    }
+
+    private fun printProjectTasks(project: Project) {
+        project.tasks.forEach { task ->
+            MyLogger.log("\n")
+            MyLogger.log(task.name)
+            MyLogger.log("output ===>")
+            MyLogger.log(task.outputs.files.files)
         }
     }
 }

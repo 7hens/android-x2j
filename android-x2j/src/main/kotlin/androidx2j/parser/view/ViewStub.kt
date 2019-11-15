@@ -5,11 +5,11 @@ import androidx2j.parser.AttrParser
 
 object ViewStub : IView {
     override val myParser = View.myParser + AttrParser.androidBuilder()
-        .add("android:inflatedId") {
+        .add("inflatedId") {
             // setInflatedId(int)
             todo()
         }
-        .add("android:layout") {
+        .add("layout") {
             // setLayoutResource(int)
             todo()
         }

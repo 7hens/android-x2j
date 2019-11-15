@@ -7,11 +7,11 @@ object TableRow : IView, IView.Parent {
     override val myParser = LinearLayout.myParser
 
     override val childParser = LinearLayout.childParser + AttrParser.androidBuilder()
-        .add("android:layout_column") {
+        .add("layout_column") {
             // 
             todo()
         }
-        .add("android:layout_span") {
+        .add("layout_span") {
             // 
             todo()
         }

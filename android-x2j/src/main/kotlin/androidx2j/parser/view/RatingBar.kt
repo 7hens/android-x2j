@@ -5,19 +5,19 @@ import androidx2j.parser.AttrParser
 
 object RatingBar : IView {
     override val myParser = AbsSeekBar.myParser + AttrParser.androidBuilder()
-        .add("android:isIndicator") {
+        .add("isIndicator") {
             // setIsIndicator(boolean)
             todo()
         }
-        .add("android:numStars") {
+        .add("numStars") {
             // 
             todo()
         }
-        .add("android:rating") {
+        .add("rating") {
             // 
             todo()
         }
-        .add("android:stepSize") {
+        .add("stepSize") {
             // 
             todo()
         }

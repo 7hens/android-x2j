@@ -9,41 +9,41 @@ import com.squareup.javapoet.CodeBlock
 object ViewGroup : IView, IView.Parent {
 
     override val myParser = View.myParser + AttrParser.androidBuilder()
-            .add("android:addStatesFromChildren") {
+            .add("addStatesFromChildren") {
                 // setLayoutTransition(LayoutTransition)
                 todo()
             }
-            .add("android:alwaysDrawnWithCache") {
+            .add("alwaysDrawnWithCache") {
                 // setLayoutTransition(LayoutTransition)
                 todo()
             }
-            .add("android:animateLayoutChanges") {
+            .add("animateLayoutChanges") {
                 // setLayoutTransition(LayoutTransition)
                 todo()
             }
-            .add("android:animationCache") {
+            .add("animationCache") {
                 // setClipChildren(boolean)
                 todo()
             }
             .add("clipChildren") { line("$view.setClipChildren(\$L)", bool(it)) }
             .add("clipToPadding") { line("$view.setClipToPadding(\$L)", bool(it)) }
-            .add("android:descendantFocusability") {
+            .add("descendantFocusability") {
                 // setLayoutMode(int)
                 todo()
             }
-            .add("android:layoutAnimation") {
+            .add("layoutAnimation") {
                 // setLayoutMode(int)
                 todo()
             }
-            .add("android:layoutMode") {
+            .add("layoutMode") {
                 // setLayoutMode(int)
                 todo()
             }
-            .add("android:persistentDrawingCache") {
+            .add("persistentDrawingCache") {
                 // setMotionEventSplittingEnabled(boolean)
                 todo()
             }
-            .add("android:splitMotionEvents") {
+            .add("splitMotionEvents") {
                 // setMotionEventSplittingEnabled(boolean)
                 todo()
             }

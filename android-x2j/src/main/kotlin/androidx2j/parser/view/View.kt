@@ -113,11 +113,10 @@ object View : IView {
             .add("transitionY") { line("$view.setTransitionY(\$L)", dimen(it)) }
             .add("transitionZ") { line("$view.setTransitionZ(\$L)", dimen(it)) }
             .add("visibility") { line("$view.setVisibility(\$T.\$L)", cView, constant(it)) }
-            .build() + AttrParser.builder()
-            .add(AttrParser.END) { end() }
+            .end { end() }
             .build()
 
-    fun XmlNode.end(): CodeBlock {
+    private fun XmlNode.end(): CodeBlock {
         val codeBuilder = CodeBlock.builder()
         if (paddingLeft ?: paddingRight ?: paddingRight ?: paddingBottom != null) {
             val v0 = code("0")

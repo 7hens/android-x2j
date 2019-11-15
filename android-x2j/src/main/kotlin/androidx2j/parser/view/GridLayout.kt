@@ -8,31 +8,31 @@ import androidx2j.parser.AttrParser
 
 object GridLayout : IView, IView.Parent {
     override val myParser = ViewGroup.myParser + AttrParser.androidBuilder()
-            .add("android:alignmentMode") {
+            .add("alignmentMode") {
                 // setAlignmentMode(int)
                 todo()
             }
-            .add("android:columnCount") {
+            .add("columnCount") {
                 // setColumnCount(int)
                 todo()
             }
-            .add("android:columnOrderPreserved") {
+            .add("columnOrderPreserved") {
                 // setColumnOrderPreserved(boolean)
                 todo()
             }
-            .add("android:orientation") {
+            .add("orientation") {
                 // setOrientation(int)
                 todo()
             }
-            .add("android:rowCount") {
+            .add("rowCount") {
                 // setRowCount(int)
                 todo()
             }
-            .add("android:rowOrderPreserved") {
+            .add("rowOrderPreserved") {
                 // setRowOrderPreserved(boolean)
                 todo()
             }
-            .add("android:useDefaultMargins") {
+            .add("useDefaultMargins") {
                 // setUseDefaultMargins(boolean)
                 todo()
             }
@@ -40,31 +40,31 @@ object GridLayout : IView, IView.Parent {
 
 
     override val childParser = ViewGroup.childParser + AttrParser.androidBuilder()
-            .add("android:layout_column") {
+            .add("layout_column") {
                 // setGravity(int)
                 todo()
             }
-            .add("android:layout_columnSpan") {
+            .add("layout_columnSpan") {
                 // setGravity(int)
                 todo()
             }
-            .add("android:layout_columnWeight") {
+            .add("layout_columnWeight") {
                 // setGravity(int)
                 todo()
             }
-            .add("android:layout_gravity") {
+            .add("layout_gravity") {
                 // setGravity(int)
                 todo()
             }
-            .add("android:layout_row") {
+            .add("layout_row") {
                 //
                 todo()
             }
-            .add("android:layout_rowSpan") {
+            .add("layout_rowSpan") {
                 //
                 todo()
             }
-            .add("android:layout_rowWeight") {
+            .add("layout_rowWeight") {
                 //
                 todo()
             }

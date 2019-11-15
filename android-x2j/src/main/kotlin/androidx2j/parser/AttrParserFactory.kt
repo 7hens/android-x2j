@@ -25,6 +25,7 @@ object AttrParserFactory {
             "EditText" to TextView,
             "ExpandableListView" to ExpandableListView,
             "ExtractEditText" to TextView,
+            "fragment" to Fragment,
             "FragmentBreadCrumbs" to ViewGroup,
             "FrameLayout" to FrameLayout,
             "Gallery" to Gallery,

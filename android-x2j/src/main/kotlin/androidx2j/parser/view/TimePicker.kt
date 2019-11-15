@@ -5,7 +5,7 @@ import androidx2j.parser.AttrParser
 
 object TimePicker : IView {
     override val myParser = FrameLayout.myParser + AttrParser.androidBuilder()
-        .add("android:timePickerMode") {
+        .add("timePickerMode") {
             // 
             todo()
         }

@@ -5,27 +5,27 @@ import androidx2j.parser.AttrParser
 
 object GridView : IView {
     override val myParser = AbsListView.myParser + AttrParser.androidBuilder()
-        .add("android:columnWidth") {
+        .add("columnWidth") {
             // setColumnWidth(int)
             todo()
         }
-        .add("android:gravity") {
+        .add("gravity") {
             // setGravity(int)
             todo()
         }
-        .add("android:horizontalSpacing") {
+        .add("horizontalSpacing") {
             // setHorizontalSpacing(int)
             todo()
         }
-        .add("android:numColumns") {
+        .add("numColumns") {
             // setNumColumns(int)
             todo()
         }
-        .add("android:stretchMode") {
+        .add("stretchMode") {
             // setStretchMode(int)
             todo()
         }
-        .add("android:verticalSpacing") {
+        .add("verticalSpacing") {
             // setVerticalSpacing(int)
             todo()
         }

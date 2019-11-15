@@ -5,19 +5,19 @@ import androidx2j.parser.AttrParser
 
 object CheckedTextView : IView {
     override val myParser = TextView.myParser + AttrParser.androidBuilder()
-        .add("android:checkMark") {
+        .add("checkMark") {
             // setCheckMarkDrawable(int)
             todo()
         }
-        .add("android:checkMarkTint") {
+        .add("checkMarkTint") {
             // setCheckMarkTintList(ColorStateList)
             todo()
         }
-        .add("android:checkMarkTintMode") {
+        .add("checkMarkTintMode") {
             // setCheckMarkTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:checked") {
+        .add("checked") {
             // 
             todo()
         }

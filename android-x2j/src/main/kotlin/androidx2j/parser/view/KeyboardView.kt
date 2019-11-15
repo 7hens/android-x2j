@@ -5,39 +5,39 @@ import androidx2j.parser.AttrParser
 
 object KeyboardView : IView {
     override val myParser = View.myParser + AttrParser.androidBuilder()
-        .add("android:keyBackground") {
+        .add("keyBackground") {
             // 
             todo()
         }
-        .add("android:keyPreviewHeight") {
+        .add("keyPreviewHeight") {
             // 
             todo()
         }
-        .add("android:keyPreviewLayout") {
+        .add("keyPreviewLayout") {
             // 
             todo()
         }
-        .add("android:keyPreviewOffset") {
+        .add("keyPreviewOffset") {
             // 
             todo()
         }
-        .add("android:keyTextColor") {
+        .add("keyTextColor") {
             // 
             todo()
         }
-        .add("android:keyTextSize") {
+        .add("keyTextSize") {
             // 
             todo()
         }
-        .add("android:labelTextSize") {
+        .add("labelTextSize") {
             // 
             todo()
         }
-        .add("android:popupLayout") {
+        .add("popupLayout") {
             // 
             todo()
         }
-        .add("android:verticalCorrection") {
+        .add("verticalCorrection") {
             // 
             todo()
         }

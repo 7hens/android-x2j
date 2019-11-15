@@ -5,51 +5,51 @@ import androidx2j.parser.AttrParser
 
 object GestureOverlayView : IView {
     override val myParser = FrameLayout.myParser + AttrParser.androidBuilder()
-        .add("android:eventsInterceptionEnabled") {
+        .add("eventsInterceptionEnabled") {
             // 
             todo()
         }
-        .add("android:fadeDuration") {
+        .add("fadeDuration") {
             // 
             todo()
         }
-        .add("android:fadeEnabled") {
+        .add("fadeEnabled") {
             // 
             todo()
         }
-        .add("android:fadeOffset") {
+        .add("fadeOffset") {
             // 
             todo()
         }
-        .add("android:gestureColor") {
+        .add("gestureColor") {
             // 
             todo()
         }
-        .add("android:gestureStrokeAngleThreshold") {
+        .add("gestureStrokeAngleThreshold") {
             // 
             todo()
         }
-        .add("android:gestureStrokeLengthThreshold") {
+        .add("gestureStrokeLengthThreshold") {
             // 
             todo()
         }
-        .add("android:gestureStrokeSquarenessThreshold") {
+        .add("gestureStrokeSquarenessThreshold") {
             // 
             todo()
         }
-        .add("android:gestureStrokeType") {
+        .add("gestureStrokeType") {
             // 
             todo()
         }
-        .add("android:gestureStrokeWidth") {
+        .add("gestureStrokeWidth") {
             // 
             todo()
         }
-        .add("android:orientation") {
+        .add("orientation") {
             // 
             todo()
         }
-        .add("android:uncertainGestureColor") {
+        .add("uncertainGestureColor") {
             // 
             todo()
         }

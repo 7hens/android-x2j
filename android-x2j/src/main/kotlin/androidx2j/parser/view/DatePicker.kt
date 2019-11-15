@@ -5,71 +5,71 @@ import androidx2j.parser.AttrParser
 
 object DatePicker : IView {
     override val myParser = FrameLayout.myParser + AttrParser.androidBuilder()
-        .add("android:calendarTextColor") {
+        .add("calendarTextColor") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:calendarViewShown") {
+        .add("calendarViewShown") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:datePickerMode") {
+        .add("datePickerMode") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:dayOfWeekBackground") {
+        .add("dayOfWeekBackground") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:dayOfWeekTextAppearance") {
+        .add("dayOfWeekTextAppearance") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:endYear") {
+        .add("endYear") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:firstDayOfWeek") {
+        .add("firstDayOfWeek") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:headerBackground") {
+        .add("headerBackground") {
             // 
             todo()
         }
-        .add("android:headerDayOfMonthTextAppearance") {
+        .add("headerDayOfMonthTextAppearance") {
             // 
             todo()
         }
-        .add("android:headerMonthTextAppearance") {
+        .add("headerMonthTextAppearance") {
             // 
             todo()
         }
-        .add("android:headerYearTextAppearance") {
+        .add("headerYearTextAppearance") {
             // 
             todo()
         }
-        .add("android:maxDate") {
+        .add("maxDate") {
             // 
             todo()
         }
-        .add("android:minDate") {
+        .add("minDate") {
             // 
             todo()
         }
-        .add("android:spinnersShown") {
+        .add("spinnersShown") {
             // 
             todo()
         }
-        .add("android:startYear") {
+        .add("startYear") {
             // 
             todo()
         }
-        .add("android:yearListItemTextAppearance") {
+        .add("yearListItemTextAppearance") {
             // 
             todo()
         }
-        .add("android:yearListSelectorColor") {
+        .add("yearListSelectorColor") {
             // 
             todo()
         }

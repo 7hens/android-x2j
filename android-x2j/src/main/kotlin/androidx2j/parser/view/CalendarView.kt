@@ -5,55 +5,55 @@ import androidx2j.parser.AttrParser
 
 object CalendarView : IView {
     override val myParser = FrameLayout.myParser + AttrParser.androidBuilder()
-        .add("android:dateTextAppearance") {
+        .add("dateTextAppearance") {
             // setDateTextAppearance(int)
             todo()
         }
-        .add("android:firstDayOfWeek") {
+        .add("firstDayOfWeek") {
             // setFirstDayOfWeek(int)
             todo()
         }
-        .add("android:focusedMonthDateColor") {
+        .add("focusedMonthDateColor") {
             // setFocusedMonthDateColor(int)
             todo()
         }
-        .add("android:maxDate") {
+        .add("maxDate") {
             // setMaxDate(long)
             todo()
         }
-        .add("android:minDate") {
+        .add("minDate") {
             // setMinDate(long)
             todo()
         }
-        .add("android:selectedDateVerticalBar") {
+        .add("selectedDateVerticalBar") {
             // setSelectedDateVerticalBar(Drawable)
             todo()
         }
-        .add("android:selectedWeekBackgroundColor") {
+        .add("selectedWeekBackgroundColor") {
             // setSelectedWeekBackgroundColor(int)
             todo()
         }
-        .add("android:showWeekNumber") {
+        .add("showWeekNumber") {
             // setShowWeekNumber(boolean)
             todo()
         }
-        .add("android:shownWeekCount") {
+        .add("shownWeekCount") {
             // setShownWeekCount(int)
             todo()
         }
-        .add("android:unfocusedMonthDateColor") {
+        .add("unfocusedMonthDateColor") {
             // setUnfocusedMonthDateColor(int)
             todo()
         }
-        .add("android:weekDayTextAppearance") {
+        .add("weekDayTextAppearance") {
             // setWeekDayTextAppearance(int)
             todo()
         }
-        .add("android:weekNumberColor") {
+        .add("weekNumberColor") {
             // setWeekNumberColor(int)
             todo()
         }
-        .add("android:weekSeparatorLineColor") {
+        .add("weekSeparatorLineColor") {
             // setWeekSeparatorLineColor(int)
             todo()
         }

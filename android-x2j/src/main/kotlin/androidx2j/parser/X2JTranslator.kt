@@ -2,7 +2,10 @@ package androidx2j.parser
 
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.BaseVariant
-import com.squareup.javapoet.*
+import com.squareup.javapoet.ClassName
+import com.squareup.javapoet.JavaFile
+import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.TypeSpec
 import java.io.File
 import javax.lang.model.element.Modifier
 
@@ -33,8 +36,8 @@ class X2JTranslator(private val packageName: String) {
     }
 
     companion object {
-        fun start(android: BaseExtension, variant: BaseVariant, outputDir: File) {
-
+        fun start(android: BaseExtension, variant: BaseVariant, rJavaFile: File, outputDir: File) {
+            val rMap = RJavaParser.parse(rJavaFile)
             val valueFiles = mutableListOf<File>()
             val layoutFiles = mutableListOf<File>()
 
@@ -51,11 +54,12 @@ class X2JTranslator(private val packageName: String) {
 
             val translator = X2JTranslator(variant.applicationId)
             val parentDir = File(outputDir, "dev/android/x2j")
-            parentDir.mkdirs()
             parentDir.deleteRecursively()
-            layoutFiles.forEachIndexed { index, file ->
-                File(parentDir, "X2J_$index.java").writer().use { output ->
-                    translator.translate(file, index, output)
+            parentDir.mkdirs()
+            layoutFiles.forEach { file ->
+                val layoutId = rMap[file.nameWithoutExtension]!!
+                File(parentDir, "X2J_$layoutId.java").writer().use { output ->
+                    translator.translate(file, layoutId, output)
                 }
             }
         }

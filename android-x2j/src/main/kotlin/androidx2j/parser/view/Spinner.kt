@@ -5,35 +5,35 @@ import androidx2j.parser.AttrParser
 
 object Spinner : IView {
     override val myParser = AbsSpinner.myParser + AttrParser.androidBuilder()
-        .add("android:dropDownHorizontalOffset") {
+        .add("dropDownHorizontalOffset") {
             // setDropDownHorizontalOffset(int)
             todo()
         }
-        .add("android:dropDownSelector") {
+        .add("dropDownSelector") {
             // setDropDownVerticalOffset(int)
             todo()
         }
-        .add("android:dropDownVerticalOffset") {
+        .add("dropDownVerticalOffset") {
             // setDropDownVerticalOffset(int)
             todo()
         }
-        .add("android:dropDownWidth") {
+        .add("dropDownWidth") {
             // setDropDownWidth(int)
             todo()
         }
-        .add("android:gravity") {
+        .add("gravity") {
             // setGravity(int)
             todo()
         }
-        .add("android:popupBackground") {
+        .add("popupBackground") {
             // setPopupBackgroundResource(int)
             todo()
         }
-        .add("android:prompt") {
+        .add("prompt") {
             // 
             todo()
         }
-        .add("android:spinnerMode") {
+        .add("spinnerMode") {
             // 
             todo()
         }

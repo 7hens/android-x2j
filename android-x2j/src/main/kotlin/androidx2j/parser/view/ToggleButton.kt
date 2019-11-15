@@ -5,15 +5,15 @@ import androidx2j.parser.AttrParser
 
 object ToggleButton : IView {
     override val myParser = CompoundButton.myParser + AttrParser.androidBuilder()
-        .add("android:disabledAlpha") {
+        .add("disabledAlpha") {
             // 
             todo()
         }
-        .add("android:textOff") {
+        .add("textOff") {
             // 
             todo()
         }
-        .add("android:textOn") {
+        .add("textOn") {
             // 
             todo()
         }

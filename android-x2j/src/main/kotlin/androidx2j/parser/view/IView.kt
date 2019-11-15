@@ -22,14 +22,15 @@ interface IView {
     fun getParser(parent: Parent): AttrParser {
         return object : AttrParser {
             override fun parse(node: XmlNode, name: String, value: String): CodeBlock? {
-                if (name == AttrParser.END) {
-                    val codeBuilder = CodeBlock.builder()
-                    myParser.parse(node, name, value)?.let { codeBuilder.add(it) }
-                    parent.childParser.parse(node, name, value)?.let { codeBuilder.add(it) }
-                    return codeBuilder.build()
-                }
                 return myParser.parse(node, name, value)
                         ?: parent.childParser.parse(node, name, value)
+            }
+
+            override fun end(node: XmlNode): CodeBlock? {
+                return CodeBlock.builder()
+                        .add(myParser.end(node) ?: AttrParser.NO_CODE)
+                        .add(parent.childParser.end(node) ?: AttrParser.NO_CODE)
+                        .build()
             }
         }
     }

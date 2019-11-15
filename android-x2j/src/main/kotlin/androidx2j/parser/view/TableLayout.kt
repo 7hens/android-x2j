@@ -5,15 +5,15 @@ import androidx2j.parser.AttrParser
 
 object TableLayout : IView, IView.Parent {
     override val myParser = LinearLayout.myParser + AttrParser.androidBuilder()
-        .add("android:collapseColumns") {
+        .add("collapseColumns") {
             // setColumnCollapsed(int,boolean)
             todo()
         }
-        .add("android:shrinkColumns") {
+        .add("shrinkColumns") {
             // setShrinkAllColumns(boolean)
             todo()
         }
-        .add("android:stretchColumns") {
+        .add("stretchColumns") {
             // setStretchAllColumns(boolean)
             todo()
         }

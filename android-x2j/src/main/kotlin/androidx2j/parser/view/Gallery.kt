@@ -5,19 +5,19 @@ import androidx2j.parser.AttrParser
 
 object Gallery : IView, IView.Parent {
     override val myParser = AbsSpinner.myParser + AttrParser.androidBuilder()
-        .add("android:animationDuration") {
+        .add("animationDuration") {
             // setAnimationDuration(int)
             todo()
         }
-        .add("android:gravity") {
+        .add("gravity") {
             // setGravity(int)
             todo()
         }
-        .add("android:spacing") {
+        .add("spacing") {
             // setSpacing(int)
             todo()
         }
-        .add("android:unselectedAlpha") {
+        .add("unselectedAlpha") {
             // setUnselectedAlpha(float)
             todo()
         }

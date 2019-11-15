@@ -5,15 +5,15 @@ import androidx2j.parser.AttrParser
 
 object ViewAnimator : IView {
     override val myParser = FrameLayout.myParser + AttrParser.androidBuilder()
-        .add("android:animateFirstView") {
+        .add("animateFirstView") {
             // 
             todo()
         }
-        .add("android:inAnimation") {
+        .add("inAnimation") {
             // 
             todo()
         }
-        .add("android:outAnimation") {
+        .add("outAnimation") {
             // 
             todo()
         }

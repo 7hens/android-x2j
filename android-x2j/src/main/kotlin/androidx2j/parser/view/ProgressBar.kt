@@ -5,103 +5,103 @@ import androidx2j.parser.AttrParser
 
 object ProgressBar : IView {
     override val myParser = View.myParser + AttrParser.androidBuilder()
-        .add("android:animationResolution") {
+        .add("animationResolution") {
             // setIndeterminateDrawable(Drawable)
             todo()
         }
-        .add("android:indeterminate") {
+        .add("indeterminate") {
             // setIndeterminateDrawable(Drawable)
             todo()
         }
-        .add("android:indeterminateBehavior") {
+        .add("indeterminateBehavior") {
             // setIndeterminateDrawable(Drawable)
             todo()
         }
-        .add("android:indeterminateDrawable") {
+        .add("indeterminateDrawable") {
             // setIndeterminateDrawable(Drawable)
             todo()
         }
-        .add("android:indeterminateDuration") {
+        .add("indeterminateDuration") {
             // setIndeterminateTintList(ColorStateList)
             todo()
         }
-        .add("android:indeterminateOnly") {
+        .add("indeterminateOnly") {
             // setIndeterminateTintList(ColorStateList)
             todo()
         }
-        .add("android:indeterminateTint") {
+        .add("indeterminateTint") {
             // setIndeterminateTintList(ColorStateList)
             todo()
         }
-        .add("android:indeterminateTintMode") {
+        .add("indeterminateTintMode") {
             // setIndeterminateTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:interpolator") {
+        .add("interpolator") {
             // setInterpolator(Context,int)
             todo()
         }
-        .add("android:max") {
+        .add("max") {
             // setMaxHeight(int)
             todo()
         }
-        .add("android:maxHeight") {
+        .add("maxHeight") {
             // setMaxHeight(int)
             todo()
         }
-        .add("android:maxWidth") {
+        .add("maxWidth") {
             // setMaxWidth(int)
             todo()
         }
-        .add("android:min") {
+        .add("min") {
             // setMinHeight(int)
             todo()
         }
-        .add("android:minHeight") {
+        .add("minHeight") {
             // setMinHeight(int)
             todo()
         }
-        .add("android:minWidth") {
+        .add("minWidth") {
             // setMinWidth(int)
             todo()
         }
-        .add("android:mirrorForRtl") {
+        .add("mirrorForRtl") {
             // setProgressBackgroundTintList(ColorStateList)
             todo()
         }
-        .add("android:progress") {
+        .add("progress") {
             // setProgressBackgroundTintList(ColorStateList)
             todo()
         }
-        .add("android:progressBackgroundTint") {
+        .add("progressBackgroundTint") {
             // setProgressBackgroundTintList(ColorStateList)
             todo()
         }
-        .add("android:progressBackgroundTintMode") {
+        .add("progressBackgroundTintMode") {
             // setProgressBackgroundTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:progressDrawable") {
+        .add("progressDrawable") {
             // setProgressTintList(ColorStateList)
             todo()
         }
-        .add("android:progressTint") {
+        .add("progressTint") {
             // setProgressTintList(ColorStateList)
             todo()
         }
-        .add("android:progressTintMode") {
+        .add("progressTintMode") {
             // setProgressTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:secondaryProgress") {
+        .add("secondaryProgress") {
             // setSecondaryProgressTintList(ColorStateList)
             todo()
         }
-        .add("android:secondaryProgressTint") {
+        .add("secondaryProgressTint") {
             // setSecondaryProgressTintList(ColorStateList)
             todo()
         }
-        .add("android:secondaryProgressTintMode") {
+        .add("secondaryProgressTintMode") {
             // setSecondaryProgressTintMode(PorterDuff.Mode)
             todo()
         }

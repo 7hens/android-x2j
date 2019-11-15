@@ -5,31 +5,31 @@ import androidx2j.parser.AttrParser
 
 object SlidingDrawer : IView {
     override val myParser = ViewGroup.myParser + AttrParser.androidBuilder()
-        .add("android:allowSingleTap") {
+        .add("allowSingleTap") {
             // 
             todo()
         }
-        .add("android:animateOnClick") {
+        .add("animateOnClick") {
             // 
             todo()
         }
-        .add("android:bottomOffset") {
+        .add("bottomOffset") {
             // 
             todo()
         }
-        .add("android:content") {
+        .add("content") {
             // 
             todo()
         }
-        .add("android:handle") {
+        .add("handle") {
             // 
             todo()
         }
-        .add("android:orientation") {
+        .add("orientation") {
             // 
             todo()
         }
-        .add("android:topOffset") {
+        .add("topOffset") {
             // 
             todo()
         }

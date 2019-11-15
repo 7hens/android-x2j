@@ -17,6 +17,7 @@ import java.util.zip.ZipOutputStream
 /**
  * @author 7hens
  */
+@Suppress("UnstableApiUsage")
 class X2JTransform(private val android: BaseExtension) : Transform() {
     private val classPool = ClassPool(null).apply {
         val sdkDirectory = android.sdkDirectory

@@ -9,342 +9,342 @@ import com.squareup.javapoet.ClassName
 object TextView : IView {
     override val myParser: AttrParser = View.myParser + AttrParser.androidBuilder()
 
-            .add("android:allowUndo") {
+            .add("allowUndo") {
                 // setAutoLinkMask(int)
                 todo()
             }
-            .add("android:autoLink") {
+            .add("autoLink") {
                 // setAutoLinkMask(int)
                 todo()
             }
-            .add("android:autoSizeMaxTextSize") {
+            .add("autoSizeMaxTextSize") {
                 // setAutoSizeTextTypeUniformWithConfiguration(int,int,int,int)
                 todo()
             }
-            .add("android:autoSizeMinTextSize") {
+            .add("autoSizeMinTextSize") {
                 // setAutoSizeTextTypeUniformWithConfiguration(int,int,int,int)
                 todo()
             }
-            .add("android:autoSizePresetSizes") {
+            .add("autoSizePresetSizes") {
                 // setAutoSizeTextTypeUniformWithPresetSizes(int,int)
                 todo()
             }
-            .add("android:autoSizeStepGranularity") {
+            .add("autoSizeStepGranularity") {
                 // setAutoSizeTextTypeUniformWithConfiguration(int,int,int,int)
                 todo()
             }
-            .add("android:autoSizeTextType") {
+            .add("autoSizeTextType") {
                 // setAutoSizeTextTypeWithDefaults(int)
                 todo()
             }
-            .add("android:autoText") {
+            .add("autoText") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:breakStrategy") {
+            .add("breakStrategy") {
                 // setBreakStrategy(int)
                 todo()
             }
-            .add("android:bufferType") {
+            .add("bufferType") {
                 // setText(int,TextView.BufferType)
                 todo()
             }
-            .add("android:capitalize") {
+            .add("capitalize") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:cursorVisible") {
+            .add("cursorVisible") {
                 // setCursorVisible(boolean)
                 todo()
             }
-            .add("android:digits") {
+            .add("digits") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:drawableBottom") {
+            .add("drawableBottom") {
                 // setCompoundDrawablesWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:drawableEnd") {
+            .add("drawableEnd") {
                 // setCompoundDrawablesRelativeWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:drawableLeft") {
+            .add("drawableLeft") {
                 // setCompoundDrawablesWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:drawablePadding") {
+            .add("drawablePadding") {
                 // setCompoundDrawablePadding(int)
                 todo()
             }
-            .add("android:drawableRight") {
+            .add("drawableRight") {
                 // setCompoundDrawablesWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:drawableStart") {
+            .add("drawableStart") {
                 // setCompoundDrawablesRelativeWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:drawableTint") {
+            .add("drawableTint") {
                 // setCompoundDrawableTintList(ColorStateList)
                 todo()
             }
-            .add("android:drawableTintMode") {
+            .add("drawableTintMode") {
                 // setCompoundDrawableTintMode(PorterDuff.Mode)
                 todo()
             }
-            .add("android:drawableTop") {
+            .add("drawableTop") {
                 // setCompoundDrawablesWithIntrinsicBounds(int,int,int,int)
                 todo()
             }
-            .add("android:editable") {
+            .add("editable") {
                 // setInputExtras(int)
                 todo()
             }
-            .add("android:editorExtras") {
+            .add("editorExtras") {
                 // setInputExtras(int)
                 todo()
             }
-            .add("android:elegantTextHeight") {
+            .add("elegantTextHeight") {
                 // setElegantTextHeight(boolean)
                 todo()
             }
-            .add("android:ellipsize") {
+            .add("ellipsize") {
                 // setEllipsize(TextUtils.TruncateAt)
                 todo()
             }
-            .add("android:ems") {
+            .add("ems") {
                 // setEms(int)
                 todo()
             }
-            .add("android:enabled") {
+            .add("enabled") {
                 // setFallbackLineSpacing(boolean)
                 todo()
             }
-            .add("android:fallbackLineSpacing") {
+            .add("fallbackLineSpacing") {
                 // setFallbackLineSpacing(boolean)
                 todo()
             }
-            .add("android:firstBaselineToTopHeight") {
+            .add("firstBaselineToTopHeight") {
                 // setFirstBaselineToTopHeight(int)
                 todo()
             }
-            .add("android:fontFamily") {
+            .add("fontFamily") {
                 // setTypeface(Typeface)
                 todo()
             }
-            .add("android:fontFeatureSettings") {
+            .add("fontFeatureSettings") {
                 // setFontFeatureSettings(String)
                 todo()
             }
-            .add("android:fontVariationSettings") {
+            .add("fontVariationSettings") {
                 // setFontVariationSettings(String)
                 todo()
             }
-            .add("android:freezesText") {
+            .add("freezesText") {
                 // setFreezesText(boolean)
                 todo()
             }
-            .add("android:gravity")  { line("$view.setGravity(\$L)", gravity(it)) }
-            .add("android:height") {
+            .add("gravity")  { line("$view.setGravity(\$L)", gravity(it)) }
+            .add("height") {
                 // setHeight(int)
                 todo()
             }
-            .add("android:hint") {
+            .add("hint") {
                 // setHint(int)
                 todo()
             }
-            .add("android:hyphenationFrequency") {
+            .add("hyphenationFrequency") {
                 // setHyphenationFrequency(int)
                 todo()
             }
-            .add("android:imeActionId") {
+            .add("imeActionId") {
                 // setImeActionLabel(CharSequence,int)
                 todo()
             }
-            .add("android:imeActionLabel") {
+            .add("imeActionLabel") {
                 // setImeActionLabel(CharSequence,int)
                 todo()
             }
-            .add("android:imeOptions") {
+            .add("imeOptions") {
                 // setImeOptions(int)
                 todo()
             }
-            .add("android:includeFontPadding") {
+            .add("includeFontPadding") {
                 // setIncludeFontPadding(boolean)
                 todo()
             }
-            .add("android:inputMethod") {
+            .add("inputMethod") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:inputType") {
+            .add("inputType") {
                 // setRawInputType(int)
                 todo()
             }
-            .add("android:justificationMode") {
+            .add("justificationMode") {
                 // setLastBaselineToBottomHeight(int)
                 todo()
             }
-            .add("android:lastBaselineToBottomHeight") {
+            .add("lastBaselineToBottomHeight") {
                 // setLastBaselineToBottomHeight(int)
                 todo()
             }
-            .add("android:letterSpacing") {
+            .add("letterSpacing") {
                 // setLetterSpacing(float)
                 todo()
             }
-            .add("android:lineHeight") {
+            .add("lineHeight") {
                 // setLineHeight(int)
                 todo()
             }
-            .add("android:lineSpacingExtra") {
+            .add("lineSpacingExtra") {
                 // setLineSpacing(float,float)
                 todo()
             }
-            .add("android:lineSpacingMultiplier") {
+            .add("lineSpacingMultiplier") {
                 // setLineSpacing(float,float)
                 todo()
             }
-            .add("android:lines") {
+            .add("lines") {
                 // setLines(int)
                 todo()
             }
-            .add("android:linksClickable") {
+            .add("linksClickable") {
                 // setLinksClickable(boolean)
                 todo()
             }
-            .add("android:marqueeRepeatLimit") {
+            .add("marqueeRepeatLimit") {
                 // setMarqueeRepeatLimit(int)
                 todo()
             }
-            .add("android:maxEms") {
+            .add("maxEms") {
                 // setMaxEms(int)
                 todo()
             }
-            .add("android:maxHeight") {
+            .add("maxHeight") {
                 // setMaxHeight(int)
                 todo()
             }
-            .add("android:maxLength") {
+            .add("maxLength") {
                 // setFilters(InputFilter)
                 todo()
             }
-            .add("android:maxLines") {
+            .add("maxLines") {
                 // setMaxLines(int)
                 todo()
             }
-            .add("android:maxWidth") {
+            .add("maxWidth") {
                 // setMaxWidth(int)
                 todo()
             }
-            .add("android:minEms") {
+            .add("minEms") {
                 // setMinEms(int)
                 todo()
             }
-            .add("android:minHeight") {
+            .add("minHeight") {
                 // setMinHeight(int)
                 todo()
             }
-            .add("android:minLines") {
+            .add("minLines") {
                 // setMinLines(int)
                 todo()
             }
-            .add("android:minWidth") {
+            .add("minWidth") {
                 // setMinWidth(int)
                 todo()
             }
-            .add("android:numeric") {
+            .add("numeric") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:password") {
+            .add("password") {
                 // setTransformationMethod(TransformationMethod)
                 todo()
             }
-            .add("android:phoneNumber") {
+            .add("phoneNumber") {
                 // setKeyListener(KeyListener)
                 todo()
             }
-            .add("android:privateImeOptions") {
+            .add("privateImeOptions") {
                 // setPrivateImeOptions(String)
                 todo()
             }
-            .add("android:scrollHorizontally") {
+            .add("scrollHorizontally") {
                 // setHorizontallyScrolling(boolean)
                 todo()
             }
-            .add("android:selectAllOnFocus") {
+            .add("selectAllOnFocus") {
                 // setSelectAllOnFocus(boolean)
                 todo()
             }
-            .add("android:shadowColor") {
+            .add("shadowColor") {
                 // setShadowLayer(float,float,float,int)
                 todo()
             }
-            .add("android:shadowDx") {
+            .add("shadowDx") {
                 // setShadowLayer(float,float,float,int)
                 todo()
             }
-            .add("android:shadowDy") {
+            .add("shadowDy") {
                 // setShadowLayer(float,float,float,int)
                 todo()
             }
-            .add("android:shadowRadius") {
+            .add("shadowRadius") {
                 // setShadowLayer(float,float,float,int)
                 todo()
             }
-            .add("android:singleLine") {
+            .add("singleLine") {
                 // setTransformationMethod(TransformationMethod)
                 todo()
             }
             .add("text") { line("$view.setText(\$L)", string(it)) }
-            .add("android:textAllCaps") {
+            .add("textAllCaps") {
                 // setAllCaps(boolean)
                 todo()
             }
-            .add("android:textAppearance") {
+            .add("textAppearance") {
                 // setTextAppearance(int)
                 todo()
             }
             .add("textColor") { line("$view.setTextColor(\$L)", color(it)) }
-            .add("android:textColorHighlight") {
+            .add("textColorHighlight") {
                 // setHighlightColor(int)
                 todo()
             }
-            .add("android:textColorHint") {
+            .add("textColorHint") {
                 // setHintTextColor(int)
                 todo()
             }
-            .add("android:textColorLink") {
+            .add("textColorLink") {
                 // setLinkTextColor(int)
                 todo()
             }
-            .add("android:textCursorDrawable") {
+            .add("textCursorDrawable") {
                 // setTextCursorDrawable(int)
                 todo()
             }
-            .add("android:textFontWeight") {
+            .add("textFontWeight") {
                 // isTextSelectable()
                 todo()
             }
-            .add("android:textIsSelectable") {
+            .add("textIsSelectable") {
                 // isTextSelectable()
                 todo()
             }
-            .add("android:textScaleX") {
+            .add("textScaleX") {
                 // setTextScaleX(float)
                 todo()
             }
-            .add("android:textSelectHandle") {
+            .add("textSelectHandle") {
                 // setTextSelectHandle(Drawable)
                 todo()
             }
-            .add("android:textSelectHandleLeft") {
+            .add("textSelectHandleLeft") {
                 // setTextSelectHandleLeft(Drawable)
                 todo()
             }
-            .add("android:textSelectHandleRight") {
+            .add("textSelectHandleRight") {
                 // setTextSelectHandleRight(int)
                 todo()
             }
@@ -352,15 +352,15 @@ object TextView : IView {
                 line("$view.setTextSize(\$T.COMPLEX_UNIT_PX, \$L)",
                         ClassName.get("android.util", "TypedValue"), dimen(it))
             }
-            .add("android:textStyle") {
+            .add("textStyle") {
                 // setTypeface(Typeface,int)
                 todo()
             }
-            .add("android:typeface") {
+            .add("typeface") {
                 // setTypeface(Typeface,int)
                 todo()
             }
-            .add("android:width") {
+            .add("width") {
                 // setWidth(int)
                 todo()
             }

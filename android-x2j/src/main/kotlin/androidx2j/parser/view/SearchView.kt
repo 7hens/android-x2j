@@ -5,23 +5,23 @@ import androidx2j.parser.AttrParser
 
 object SearchView : IView {
     override val myParser = LinearLayout.myParser + AttrParser.androidBuilder()
-        .add("android:iconifiedByDefault") {
+        .add("iconifiedByDefault") {
             // setIconifiedByDefault(boolean)
             todo()
         }
-        .add("android:imeOptions") {
+        .add("imeOptions") {
             // setImeOptions(int)
             todo()
         }
-        .add("android:inputType") {
+        .add("inputType") {
             // setInputType(int)
             todo()
         }
-        .add("android:maxWidth") {
+        .add("maxWidth") {
             // setMaxWidth(int)
             todo()
         }
-        .add("android:queryHint") {
+        .add("queryHint") {
             // setQueryHint(CharSequence)
             todo()
         }

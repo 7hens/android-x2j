@@ -5,11 +5,11 @@ import androidx2j.parser.AttrParser
 
 object Chronometer : IView {
     override val myParser = TextView.myParser + AttrParser.androidBuilder()
-        .add("android:countDown") {
+        .add("countDown") {
             // 
             todo()
         }
-        .add("android:format") {
+        .add("format") {
             // 
             todo()
         }

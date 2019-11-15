@@ -5,19 +5,19 @@ import androidx2j.parser.AttrParser
 
 object TabWidget : IView {
     override val myParser = LinearLayout.myParser + AttrParser.androidBuilder()
-        .add("android:divider") {
+        .add("divider") {
             // setDividerDrawable(Drawable)
             todo()
         }
-        .add("android:tabStripEnabled") {
+        .add("tabStripEnabled") {
             // setLeftStripDrawable(int)
             todo()
         }
-        .add("android:tabStripLeft") {
+        .add("tabStripLeft") {
             // setLeftStripDrawable(int)
             todo()
         }
-        .add("android:tabStripRight") {
+        .add("tabStripRight") {
             // setRightStripDrawable(Drawable)
             todo()
         }

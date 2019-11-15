@@ -5,15 +5,15 @@ import androidx2j.parser.AttrParser
 
 object CompoundButton : IView {
     override val myParser = TextView.myParser + AttrParser.androidBuilder()
-        .add("android:button") {
+        .add("button") {
             // setButtonDrawable(Drawable)
             todo()
         }
-        .add("android:buttonTint") {
+        .add("buttonTint") {
             // setButtonTintList(ColorStateList)
             todo()
         }
-        .add("android:buttonTintMode") {
+        .add("buttonTintMode") {
             // setButtonTintMode(PorterDuff.Mode)
             todo()
         }

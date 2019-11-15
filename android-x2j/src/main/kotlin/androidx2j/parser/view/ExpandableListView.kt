@@ -5,47 +5,47 @@ import androidx2j.parser.AttrParser
 
 object ExpandableListView : IView {
     override val myParser = ListView.myParser + AttrParser.androidBuilder()
-        .add("android:childDivider") {
+        .add("childDivider") {
             // 
             todo()
         }
-        .add("android:childIndicator") {
+        .add("childIndicator") {
             // 
             todo()
         }
-        .add("android:childIndicatorEnd") {
+        .add("childIndicatorEnd") {
             // 
             todo()
         }
-        .add("android:childIndicatorLeft") {
+        .add("childIndicatorLeft") {
             // 
             todo()
         }
-        .add("android:childIndicatorRight") {
+        .add("childIndicatorRight") {
             // 
             todo()
         }
-        .add("android:childIndicatorStart") {
+        .add("childIndicatorStart") {
             // 
             todo()
         }
-        .add("android:groupIndicator") {
+        .add("groupIndicator") {
             // 
             todo()
         }
-        .add("android:indicatorEnd") {
+        .add("indicatorEnd") {
             // 
             todo()
         }
-        .add("android:indicatorLeft") {
+        .add("indicatorLeft") {
             // 
             todo()
         }
-        .add("android:indicatorRight") {
+        .add("indicatorRight") {
             // 
             todo()
         }
-        .add("android:indicatorStart") {
+        .add("indicatorStart") {
             // 
             todo()
         }

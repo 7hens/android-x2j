@@ -86,7 +86,7 @@ object LayoutParser {
                     codes.add("// $name=\"$value\"\n")
                 }
             }
-            parser.parse(node, AttrParser.END, "")?.let { codes.add(it) }
+            codes.add(parser.end(node) ?: AttrParser.NO_CODE)
             return codes.build()
         }
 

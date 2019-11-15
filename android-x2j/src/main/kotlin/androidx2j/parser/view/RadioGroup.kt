@@ -5,7 +5,7 @@ import androidx2j.parser.AttrParser
 
 object RadioGroup : IView, IView.Parent {
     override val myParser = LinearLayout.myParser + AttrParser.androidBuilder()
-        .add("android:checkedButton") {
+        .add("checkedButton") {
             // getCheckedRadioButtonId()
             todo()
         }

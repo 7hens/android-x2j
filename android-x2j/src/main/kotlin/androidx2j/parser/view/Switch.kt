@@ -5,67 +5,67 @@ import androidx2j.parser.AttrParser
 
 object Switch : IView {
     override val myParser = CompoundButton.myParser + AttrParser.androidBuilder()
-        .add("android:showText") {
+        .add("showText") {
             // setShowText(boolean)
             todo()
         }
-        .add("android:splitTrack") {
+        .add("splitTrack") {
             // setSplitTrack(boolean)
             todo()
         }
-        .add("android:switchMinWidth") {
+        .add("switchMinWidth") {
             // setSwitchMinWidth(int)
             todo()
         }
-        .add("android:switchPadding") {
+        .add("switchPadding") {
             // setSwitchPadding(int)
             todo()
         }
-        .add("android:switchTextAppearance") {
+        .add("switchTextAppearance") {
             // setSwitchTextAppearance(Context,int)
             todo()
         }
-        .add("android:textOff") {
+        .add("textOff") {
             // setTextOff(CharSequence)
             todo()
         }
-        .add("android:textOn") {
+        .add("textOn") {
             // setTextOn(CharSequence)
             todo()
         }
-        .add("android:textStyle") {
+        .add("textStyle") {
             // setSwitchTypeface(Typeface)
             todo()
         }
-        .add("android:thumb") {
+        .add("thumb") {
             // setThumbResource(int)
             todo()
         }
-        .add("android:thumbTextPadding") {
+        .add("thumbTextPadding") {
             // setThumbTextPadding(int)
             todo()
         }
-        .add("android:thumbTint") {
+        .add("thumbTint") {
             // setThumbTintList(ColorStateList)
             todo()
         }
-        .add("android:thumbTintMode") {
+        .add("thumbTintMode") {
             // setThumbTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:track") {
+        .add("track") {
             // setTrackResource(int)
             todo()
         }
-        .add("android:trackTint") {
+        .add("trackTint") {
             // setTrackTintList(ColorStateList)
             todo()
         }
-        .add("android:trackTintMode") {
+        .add("trackTintMode") {
             // setTrackTintMode(PorterDuff.Mode)
             todo()
         }
-        .add("android:typeface") {
+        .add("typeface") {
             // setSwitchTypeface(Typeface)
             todo()
         }

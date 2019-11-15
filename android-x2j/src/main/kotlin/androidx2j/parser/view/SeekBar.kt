@@ -5,7 +5,7 @@ import androidx2j.parser.AttrParser
 
 object SeekBar : IView {
     override val myParser = AbsSeekBar.myParser + AttrParser.androidBuilder()
-        .add("android:thumb") {
+        .add("thumb") {
             // 
             todo()
         }

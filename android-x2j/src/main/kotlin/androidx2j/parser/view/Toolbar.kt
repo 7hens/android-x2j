@@ -5,111 +5,111 @@ import androidx2j.parser.AttrParser
 
 object Toolbar : IView, IView.Parent {
     override val myParser = ViewGroup.myParser + AttrParser.androidBuilder()
-        .add("android:buttonGravity") {
+        .add("buttonGravity") {
             // setCollapseContentDescription(int)
             todo()
         }
-        .add("android:collapseContentDescription") {
+        .add("collapseContentDescription") {
             // setCollapseContentDescription(int)
             todo()
         }
-        .add("android:collapseIcon") {
+        .add("collapseIcon") {
             // setCollapseIcon(int)
             todo()
         }
-        .add("android:contentInsetEnd") {
+        .add("contentInsetEnd") {
             // setContentInsetsRelative(int,int)
             todo()
         }
-        .add("android:contentInsetEndWithActions") {
+        .add("contentInsetEndWithActions") {
             // setContentInsetEndWithActions(int)
             todo()
         }
-        .add("android:contentInsetLeft") {
+        .add("contentInsetLeft") {
             // setContentInsetsAbsolute(int,int)
             todo()
         }
-        .add("android:contentInsetRight") {
+        .add("contentInsetRight") {
             // setContentInsetsAbsolute(int,int)
             todo()
         }
-        .add("android:contentInsetStart") {
+        .add("contentInsetStart") {
             // setContentInsetsRelative(int,int)
             todo()
         }
-        .add("android:contentInsetStartWithNavigation") {
+        .add("contentInsetStartWithNavigation") {
             // setContentInsetStartWithNavigation(int)
             todo()
         }
-        .add("android:gravity") {
+        .add("gravity") {
             // setNavigationContentDescription(int)
             todo()
         }
-        .add("android:logo") {
+        .add("logo") {
             // setNavigationContentDescription(int)
             todo()
         }
-        .add("android:logoDescription") {
+        .add("logoDescription") {
             // setNavigationContentDescription(int)
             todo()
         }
-        .add("android:maxButtonHeight") {
+        .add("maxButtonHeight") {
             // setNavigationContentDescription(int)
             todo()
         }
-        .add("android:navigationContentDescription") {
+        .add("navigationContentDescription") {
             // setNavigationContentDescription(int)
             todo()
         }
-        .add("android:navigationIcon") {
+        .add("navigationIcon") {
             // setNavigationIcon(int)
             todo()
         }
-        .add("android:popupTheme") {
+        .add("popupTheme") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:subtitle") {
+        .add("subtitle") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:subtitleTextAppearance") {
+        .add("subtitleTextAppearance") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:subtitleTextColor") {
+        .add("subtitleTextColor") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:title") {
+        .add("title") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:titleMargin") {
+        .add("titleMargin") {
             // setTitleMargin(int,int,int,int)
             todo()
         }
-        .add("android:titleMarginBottom") {
+        .add("titleMarginBottom") {
             // setTitleMarginBottom(int)
             todo()
         }
-        .add("android:titleMarginEnd") {
+        .add("titleMarginEnd") {
             // setTitleMarginEnd(int)
             todo()
         }
-        .add("android:titleMarginStart") {
+        .add("titleMarginStart") {
             // setTitleMarginStart(int)
             todo()
         }
-        .add("android:titleMarginTop") {
+        .add("titleMarginTop") {
             // setTitleMarginTop(int)
             todo()
         }
-        .add("android:titleTextAppearance") {
+        .add("titleTextAppearance") {
             // 
             todo()
         }
-        .add("android:titleTextColor") {
+        .add("titleTextColor") {
             // 
             todo()
         }
@@ -117,7 +117,7 @@ object Toolbar : IView, IView.Parent {
 
     
     override val childParser = ViewGroup.childParser + AttrParser.androidBuilder()
-        .add("android:layout_gravity") {
+        .add("layout_gravity") {
             // 
             todo()
         }
