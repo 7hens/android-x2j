@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 /**
  * @author 7hens
  */
-public class X2J {
+public final class X2J {
     public static final String APPLICATION_ID = "o_0_applicationId";
     public static final boolean IS_ANDROID_LIBRARY = Boolean.parseBoolean("o_0_isAndroidLibrary");
 
@@ -39,10 +39,16 @@ public class X2J {
         return inflate(context, layoutId, parent, parent != null);
     }
 
-    public static View inflate(Context context, int layoutId, ViewGroup root, boolean attach) {
+    public static View inflate(Context context, final int layoutId, ViewGroup root, boolean attach) {
         ViewCreator creator = viewCreators.get(layoutId);
         if (creator == null) {
-            creator = newViewCreator(layoutId);
+            Log.e("@X2J", "could not create layout " + layoutId + " by x2j");
+            creator = new ViewCreator() {
+                @Override
+                public View createView(Context context, ViewGroup root, boolean attach) {
+                    return LayoutInflater.from(context).inflate(layoutId, root, attach);
+                }
+            };
             viewCreators.put(layoutId, creator);
         }
         return creator.createView(context, root, attach);
@@ -50,22 +56,6 @@ public class X2J {
 
     interface ViewCreator {
         View createView(Context context, ViewGroup root, boolean attach);
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    private static ViewCreator newViewCreator(final int layoutId) {
-        try {
-            String clzName = "dev.android.x2j.X2J_" + layoutId;
-            return (ViewCreator) X2J.class.getClassLoader().loadClass(clzName).newInstance();
-        } catch (Throwable e) {
-            Log.e("@X2J", "could not create layout " + layoutId + " by x2j", e);
-            return new ViewCreator() {
-                @Override
-                public View createView(Context context, ViewGroup root, boolean attach) {
-                    return LayoutInflater.from(context).inflate(layoutId, root, attach);
-                }
-            };
-        }
     }
 
     private static final SparseArray<ViewCreator> viewCreators = new SparseArray<>();
@@ -85,9 +75,6 @@ public class X2J {
             typedArray.recycle();
             return 0;
         }
-    }
-
-    static void pass(int layout) {
     }
 
     static View.OnClickListener onClickListener(View view, String methodName) {

@@ -28,7 +28,7 @@ dependencies {
     compileOnly(gradleApi())
     implementation(localGroovy())
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
-    implementation("com.android.tools.build:gradle:3.5.2")
+    implementation("com.android.tools.build:gradle:3.5.1")
     implementation("org.javassist:javassist:3.22.0-GA")
     implementation("com.squareup:javapoet:1.11.1")
     implementation("commons-io:commons-io:2.5")

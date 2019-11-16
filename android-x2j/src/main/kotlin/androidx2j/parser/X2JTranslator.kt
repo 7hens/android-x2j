@@ -69,9 +69,11 @@ class X2JTranslator(private val packageName: String) {
                 parentDir.mkdirs()
                 layoutFiles.forEach { file ->
                     launch(Dispatchers.IO) {
-                        val className = "X2JL_" + file.nameWithoutExtension
                         MyLogger.log("translate $file")
-                        File(parentDir, "$className.java").writer().use { output ->
+                        val className = "X2JL_" + file.nameWithoutExtension
+                        val javaFile = File(parentDir, "$className.java")
+                        javaFile.deleteOnExit()
+                        javaFile.writer().use { output ->
                             try {
                                 translator.translate(file, className, output)
                                 val layoutId = rMap[file.nameWithoutExtension]!!

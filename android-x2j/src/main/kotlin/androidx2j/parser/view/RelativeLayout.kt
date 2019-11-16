@@ -60,6 +60,6 @@ object RelativeLayout : IView, IView.Parent {
             .build()
 
     private fun ruleVerb(value: String): CodeBlock {
-        return code("\$T.\$L", cLayoutParams, constant(value))
+        return code("\$T.\$L", cRelativeLayout, constant(value).replace("TO_", ""))
     }
 }

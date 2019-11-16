@@ -33,8 +33,7 @@ interface AttrParser {
     }
 
     companion object {
-        const val END = ""
-        val NO_CODE = CodeBlock.builder().build()
+        val NO_CODE: CodeBlock = CodeBlock.builder().build()
 
         fun builder(prefix: String = ""): Builder {
             return object : Builder {

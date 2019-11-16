@@ -12,6 +12,6 @@ object FrameLayout : IView, IView.Parent {
             .build()
 
     override val childParser = ViewGroup.childParser + AttrParser.androidBuilder()
-            .add("layout_gravity") { line("$layout.gravity(\$L)", gravity(it)) }
+            .add("layout_gravity") { line("$layout.gravity = \$L", gravity(it)) }
             .build()
 }

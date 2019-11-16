@@ -36,29 +36,30 @@ object LayoutParser {
             super.startElement(uri, localName, qName, attributes)
             nodeIndex += 1
             if (qName == "merge" && nodeIndex == 1) {
+                line()
                 line("if (!attach || root == null) throw new RuntimeException(\$S)",
-                        "error with <merge />: valid ViewGroup root or attach = false")
+                        "error with <merge />: invalid ViewGroup root or not attach")
             }
-            val node = XmlNode.create(nodeIndex, qName, run {
-                var parent = stack.firstOrNull()
-                while (parent != null && parent.tagName == "merge") {
-                    parent = parent.parent
+            val parent = run {
+                var parent = stack.peek()
+                while (parent.tagName == "merge") {
+                    parent = parent.parent!!
                 }
                 parent
-            })
+            }
+            val node = XmlNode.create(nodeIndex, qName, parent)
             stack.push(node)
-            line()
             if (qName == "merge") return
-            val parent = node.parent!!
+            line()
             if (qName == "include") {
                 val cView = ClassName.get("android.view", "View")
                 val layoutId = View.layoutId(attributes.getValue("layout"))
                 line("\$T ${node.view} = X2J.inflate(context, \$L, ${parent.view})", cView, layoutId)
-            } else {
-                line("\$T ${node.view} = new \$T(context)", node.viewType, node.viewType)
-                line("\$T ${node.layout} = new \$T(0, 0)", parent.layoutType, parent.layoutType)
-                codes.add(parse(node, attributes))
+                return
             }
+            line("\$T ${node.view} = new \$T(context)", node.viewType, node.viewType)
+            line("\$T ${node.layout} = new \$T(0, 0)", parent.layoutType, parent.layoutType)
+            codes.add(parse(node, attributes))
         }
 
         override fun endElement(uri: String, localName: String, qName: String) {
@@ -73,10 +74,14 @@ object LayoutParser {
                     line("if (attach && root != null) root.addView(${node.view})")
                     line("return ${node.view}")
                 }
-            } else if (node.tagName != "merge" && node.tagName != "include") {
-                line("\$L.setLayoutParams(\$L)", node.view, node.layout)
-                line("${node.parent!!.view}.addView(${node.view})")
+                return
             }
+            if (node.tagName in arrayOf("merge", "include")) {
+                line()
+                return
+            }
+            line("\$L.setLayoutParams(\$L)", node.view, node.layout)
+            line("${node.parent!!.view}.addView(${node.view})")
         }
 
         private fun line(format: String = "", vararg args: Any?) {

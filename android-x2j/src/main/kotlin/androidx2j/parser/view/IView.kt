@@ -45,7 +45,7 @@ interface IView {
 
     fun line(format: String = "", vararg args: Any?): CodeBlock {
         return if (format.isEmpty()) {
-            AttrParser.NO_CODE
+            code("\n")
         } else {
             CodeBlock.builder().addStatement(format, *args).build()
         }

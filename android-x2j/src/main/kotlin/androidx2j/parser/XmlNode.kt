@@ -1,5 +1,6 @@
 package androidx2j.parser
 
+import android.databinding.tool.ext.toCamelCaseAsVar
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.TypeName
 

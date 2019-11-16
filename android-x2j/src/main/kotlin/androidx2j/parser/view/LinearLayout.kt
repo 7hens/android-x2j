@@ -21,8 +21,8 @@ object LinearLayout : IView, IView.Parent {
             .build()
 
     override val childParser = ViewGroup.childParser + AttrParser.androidBuilder()
-            .add("layout_gravity") { line("$layout.gravity(\$L)", gravity(it)) }
-            .add("layout_weight") { line("$layout.weight(\$L)", float(it)) }
+            .add("layout_gravity") { line("$layout.gravity = \$L", gravity(it)) }
+            .add("layout_weight") { line("$layout.weight = \$L", float(it)) }
             .build()
 
 

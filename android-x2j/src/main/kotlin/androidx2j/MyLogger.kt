@@ -22,9 +22,10 @@ object MyLogger {
     }
 
     fun getStackTrace(error: Throwable): String {
-        val writer = PrintWriter(StringWriter())
-        error.printStackTrace(writer)
-        writer.flush()
-        return writer.toString()
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        error.printStackTrace(pw)
+        pw.flush()
+        return sw.toString()
     }
 }
