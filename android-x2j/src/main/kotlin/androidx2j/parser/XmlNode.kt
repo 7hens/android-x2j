@@ -16,7 +16,7 @@ data class XmlNode(
 ) {
 
     companion object {
-        fun create(index: Int, tagName: String, parent: XmlNode): XmlNode {
+        fun create(index: Int, tagName: String, parent: XmlNode?): XmlNode {
             val viewType = getViewTypeByTagName(tagName)
             val view = tagName.substringAfterLast(".").decapitalize() + index
             val layoutType = viewType.nestedClass("LayoutParams")

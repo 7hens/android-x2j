@@ -6,6 +6,7 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
+import kotlinx.coroutines.runBlocking
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
@@ -37,11 +38,11 @@ class X2JPlugin : Plugin<Project> {
             project.afterEvaluate {
                 if (android is AppExtension) {
                     android.applicationVariants.forEach {
-                        generateX2J(project, android, it)
+                        registerToGenerateX2JFiles(project, android, it)
                     }
                 } else if (android is LibraryExtension) {
                     android.libraryVariants.forEach {
-                        generateX2J(project, android, it)
+                        registerToGenerateX2JFiles(project, android, it)
                     }
                 }
             }
@@ -50,46 +51,50 @@ class X2JPlugin : Plugin<Project> {
         }
     }
 
-    private fun generateX2J(project: Project, android: BaseExtension, variant: BaseVariant) {
-        val variantName = variant.name
-        val yaVariantName = variantName.toCamelCase()
+    private fun registerToGenerateX2JFiles(project: Project, android: BaseExtension, variant: BaseVariant) {
+        val yaVariantName = variant.name.toCamelCase()
+        project.tasks.findByName("compile${yaVariantName}JavaWithJavac")!!.doFirst {
+            try {
+                runBlocking { generateX2JFiles(project, android, variant) }
+            } catch (e: Throwable) {
+                MyLogger.error(e)
+            }
+        }
+    }
+
+    private suspend fun generateX2JFiles(project: Project, android: BaseExtension, variant: BaseVariant) {
+        MyLogger.log("generate X2J files")
+
         val applicationId = variant.applicationId
         val rJavaDir = getRJavaDir(project, variant)
         val outputRootDir = getJavaOutputDir(project, variant)
+        val rFilePath = applicationId.replace(".", "/") + "/R.java"
+        val rFile = File(rJavaDir, rFilePath)
+        val layoutMap = X2JTranslator.start(android, variant, rFile, outputRootDir)
 
-        project.tasks.findByName("compile${yaVariantName}JavaWithJavac")!!.doFirst {
-            MyLogger.log("generate X2J files")
-
-            val x2jFile = File(outputRootDir, "dev/android/x2j/X2J.java")
-            x2jFile.parentFile.mkdirs()
-            x2jFile.outputStream().writer().use { writer ->
-                writer.write(X2J_CODE
-                        .replace("o_0_applicationId", applicationId)
-                        .replace("o_0_isAndroidLibrary", "" + isAndroidLibrary))
-            }
-
-            val rFilePath = applicationId.replace(".", "/") + "/R.java"
-            val rFile = File(rJavaDir, rFilePath)
-            X2JTranslator.start(android, variant, rFile, outputRootDir)
-
-            if (isAndroidLibrary) {
-                val r2File = File(outputRootDir, rFilePath.replace("R.java", "R2.java"))
-                rFile.inputStream().reader().use { reader ->
-                    r2File.parentFile.mkdirs()
-                    r2File.outputStream().writer().use { writer ->
-                        writer.write(reader.readText()
-                                .replace("class R {", "class R2 {"))
-                    }
+        if (isAndroidLibrary) {
+            val r2File = File(outputRootDir, rFilePath.replace("R.java", "R2.java"))
+            rFile.inputStream().reader().use { reader ->
+                r2File.parentFile.mkdirs()
+                r2File.outputStream().writer().use { writer ->
+                    writer.write(reader.readText()
+                            .replace("class R {", "class R2 {"))
                 }
             }
         }
 
-        val genX2JTask = project.tasks.create("generate${yaVariantName}X2J") {
-            group = "build"
-            doLast {
-            }
+        val x2jFile = File(outputRootDir, "dev/android/x2j/X2J.java")
+        x2jFile.parentFile.mkdirs()
+        x2jFile.outputStream().writer().use { writer ->
+            writer.write(X2J_CODE
+                    .replace("o_0_applicationId", applicationId)
+                    .replace("o_0_isAndroidLibrary", "" + isAndroidLibrary)
+                    .replace("//o_0_initViewCreators", run {
+                        layoutMap.entries.joinToString("") { (id, cls) ->
+                            "\n        viewCreators.put($id, new $cls());"
+                        }
+                    }))
         }
-        variant.registerJavaGeneratingTask(genX2JTask, outputRootDir)
     }
 
     private fun getRJavaDir(project: Project, variant: BaseVariant): File {

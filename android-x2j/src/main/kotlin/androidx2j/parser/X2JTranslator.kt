@@ -4,6 +4,9 @@ import androidx2j.MyLogger
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.BaseVariant
 import com.squareup.javapoet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import java.io.File
 import javax.lang.model.element.Modifier
 
@@ -11,11 +14,11 @@ import javax.lang.model.element.Modifier
  * @author 7hens
  */
 class X2JTranslator(private val packageName: String) {
-    fun translate(file: File, layoutId: Int, output: Appendable) {
+    fun translate(file: File, className: String, output: Appendable) {
         val cR = ClassName.get(packageName, "R")
         val name = file.nameWithoutExtension
 
-        JavaFile.builder("dev.android.x2j", TypeSpec.classBuilder("X2J_$layoutId")
+        JavaFile.builder("dev.android.x2j", TypeSpec.classBuilder(className)
                 .addSuperinterface(ClassName.get("dev.android.x2j", "X2J", "ViewCreator"))
                 .addJavadoc("Automatically generated file. DO NOT MODIFY.\n")
                 .addJavadoc("Translate from {@link \$T.layout.$name}\n", cR)
@@ -36,7 +39,8 @@ class X2JTranslator(private val packageName: String) {
     }
 
     companion object {
-        fun start(android: BaseExtension, variant: BaseVariant, rJavaFile: File, outputDir: File) {
+        suspend fun start(android: BaseExtension, variant: BaseVariant, rJavaFile: File, outputDir: File): Map<Int, String> {
+            val result = mutableMapOf<Int, String>()
             val rMap = RJavaParser.parse(rJavaFile)
             val valueFiles = mutableListOf<File>()
             val layoutFiles = mutableListOf<File>()
@@ -50,26 +54,41 @@ class X2JTranslator(private val packageName: String) {
                         }
                     }
 
-            valueFiles.forEach { StyleParser.load(it) }
-
-            val translator = X2JTranslator(variant.applicationId)
-            val parentDir = File(outputDir, "dev/android/x2j")
-            parentDir.mkdirs()
-            layoutFiles.forEach { file ->
-                val layoutId = rMap[file.nameWithoutExtension]!!
-                File(parentDir, "X2J_$layoutId.java").writer().use { output ->
-                    try {
-                        translator.translate(file, layoutId, output)
-                    } catch (e: Throwable) {
-                        MyLogger.error("translate error: #$layoutId $file")
-                        MyLogger.error(e)
-                        output.write("/** translate error: #$layoutId $file" +
-                                "\n" +
-                                "\n" + MyLogger.getStackTrace(e) +
-                                "\n */")
+            supervisorScope {
+                valueFiles.forEach { file ->
+                    launch(Dispatchers.IO) {
+                        MyLogger.log("translate $file")
+                        StyleParser.load(file)
                     }
                 }
             }
+
+            supervisorScope {
+                val translator = X2JTranslator(variant.applicationId)
+                val parentDir = File(outputDir, "dev/android/x2j")
+                parentDir.mkdirs()
+                layoutFiles.forEach { file ->
+                    launch(Dispatchers.IO) {
+                        val className = "X2JL_" + file.nameWithoutExtension
+                        MyLogger.log("translate $file")
+                        File(parentDir, "$className.java").writer().use { output ->
+                            try {
+                                translator.translate(file, className, output)
+                                val layoutId = rMap[file.nameWithoutExtension]!!
+                                result[layoutId] = className
+                            } catch (e: Throwable) {
+                                output.write("/** translate error: $file" +
+                                        "\n" +
+                                        "\n" + MyLogger.getStackTrace(e) +
+                                        "\n */")
+                                MyLogger.error("translate error: $file")
+                                MyLogger.error(e)
+                            }
+                        }
+                    }
+                }
+            }
+            return result
         }
     }
 }

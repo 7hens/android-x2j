@@ -72,6 +72,10 @@ public class X2J {
 
     private static final SparseArray<ViewCreator> viewCreators = new SparseArray<>();
 
+    static {
+        //o_0_initViewCreators
+    }
+
     static int getResourceIdFromAttr(Context ctx, int attr) {
         TypedValue outValue = new TypedValue();
         Resources.Theme theme = ctx.getTheme();

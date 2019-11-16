@@ -13,7 +13,7 @@ class X2JTranslatorTest {
         val xmlFile = File("../sample/src/main/res/layout/activity_main.xml")
         val translator = X2JTranslator("androidxj2.sample")
         val builder = StringBuilder()
-        translator.translate(xmlFile, 123, builder)
+        translator.translate(xmlFile, "X2J_123", builder)
         println(builder.toString())
     }
 }

@@ -1,5 +1,5 @@
 plugins {
-    `kotlin-dsl`
+    kotlin("jvm")
     id("com.github.dcendents.android-maven")
     id("maven-publish")
 }
@@ -27,11 +27,11 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     compileOnly(gradleApi())
     implementation(localGroovy())
-    implementation("com.android.tools.build:gradle:3.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    implementation("com.android.tools.build:gradle:3.5.2")
     implementation("org.javassist:javassist:3.22.0-GA")
     implementation("com.squareup:javapoet:1.11.1")
     implementation("commons-io:commons-io:2.5")
-    implementation("com.zhangyue.we:x2c-apt:1.1.2")
 }
 
 afterEvaluate {

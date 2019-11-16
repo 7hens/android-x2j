@@ -40,9 +40,9 @@ object LayoutParser {
                         "error with <merge />: valid ViewGroup root or attach = false")
             }
             val node = XmlNode.create(nodeIndex, qName, run {
-                var parent = stack.peek()
-                while (parent.tagName == "merge") {
-                    parent = stack.peek()
+                var parent = stack.firstOrNull()
+                while (parent != null && parent.tagName == "merge") {
+                    parent = parent.parent
                 }
                 parent
             })
@@ -67,10 +67,12 @@ object LayoutParser {
             val upperNode = stack.peek()
             if (upperNode == XmlNode.root) {
                 line()
-                if (node.tagName != "merge") {
+                if (node.tagName == "merge") {
+                    line("return root")
+                } else {
                     line("if (attach && root != null) root.addView(${node.view})")
+                    line("return ${node.view}")
                 }
-                line("return ${node.view}")
             } else if (node.tagName != "merge" && node.tagName != "include") {
                 line("\$L.setLayoutParams(\$L)", node.view, node.layout)
                 line("${node.parent!!.view}.addView(${node.view})")
