@@ -1,6 +1,5 @@
 package androidx2j
 
-import java.io.PrintStream
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -15,16 +14,17 @@ object MyLogger {
     }
 
     fun error(msg: Any?) {
-        System.err.print(LOG_TAG + when (msg) {
+        System.err.println(LOG_TAG + when (msg) {
             null -> null
-            is Throwable -> {
-                val writer = PrintWriter(StringWriter())
-                msg.printStackTrace(writer)
-                writer.flush()
-                writer.toString()
-            }
+            is Throwable -> getStackTrace(msg)
             else -> msg.toString()
         })
-        System.err.println()
+    }
+
+    fun getStackTrace(error: Throwable): String {
+        val writer = PrintWriter(StringWriter())
+        error.printStackTrace(writer)
+        writer.flush()
+        return writer.toString()
     }
 }

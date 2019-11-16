@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/view_included" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ff0000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3256e2"
         android:gravity="center"
         android:text="i am fragment"
         android:textColor="@android:color/white" />
-
 
 </LinearLayout>

@@ -14,13 +14,13 @@
         android:minHeight="@android:dimen/app_icon_size"
         android:scaleType="centerCrop"
         android:src="?attr/selectableItemBackground"
-        app:layout_constraintDimensionRatio="H,1024:539"
+        app:layout_constraintDimensionRatio="H,3:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/xml"
+        android:id="@+id/left"
         style="@style/btn"
         android:text="@string/left"
         android:textColor="@android:color/white"
@@ -29,39 +29,54 @@
         app:layout_constraintTop_toBottomOf="@id/iv" />
 
     <TextView
-        android:id="@+id/x2c"
+        android:id="@+id/right"
         style="@style/btn"
         android:background="@color/colorPrimary"
         android:text="@string/right"
-        app:layout_constraintLeft_toRightOf="@id/xml"
-        app:layout_constraintTop_toTopOf="@id/xml" />
+        app:layout_constraintLeft_toRightOf="@id/left"
+        app:layout_constraintTop_toTopOf="@id/left" />
 
     <androidx2j.sample.CustomView
         android:id="@+id/custom"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10px"
-        android:paddingLeft="10sp"
-        android:paddingRight="10in"
-        app:layout_constraintTop_toBottomOf="@id/x2c"
+        app:layout_constraintLeft_toRightOf="@id/right"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/right"
+        app:layout_constraintTop_toTopOf="@id/left"
+        app:layout_editor_absoluteX="0dp"
         app:mixColor="black|red"
-        tools:ignore="InOrMmUsage,MissingConstraints,PxUsage,RtlHardcoded"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:ignore="InOrMmUsage,MissingConstraints,PxUsage,RtlHardcoded" />
 
     <fragment
         android:id="@+id/fragment"
         android:name="androidx2j.sample.MyFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/custom" />
+        app:layout_constraintTop_toBottomOf="@id/custom"
+        tools:layout="@layout/fragment_layout" />
 
-    <ViewStub
-        android:id="@+id/stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment">
+
+        <ViewStub
+            android:id="@+id/stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <include layout="@layout/view_included" />
+
+        <include layout="@layout/view_merged" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -22,46 +22,58 @@ object LayoutParser {
 
     private class XmlHandler(private val codes: CodeBlock.Builder) : DefaultHandler() {
         private val stack = Stack<XmlNode>()
-        private var nodeIndex = 1
+        private var nodeIndex = 0
 
         init {
+            stack.push(XmlNode.root)
             val cResources = ClassName.get("android.content.res", "Resources")
             val cDisplayMetrics = ClassName.get("android.util", "DisplayMetrics")
-            codes.addStatement("final \$T resources = context.getResources()", cResources)
-                    .addStatement("final \$T displayMetrics = resources.getDisplayMetrics()", cDisplayMetrics)
+            line("final \$T resources = context.getResources()", cResources)
+            line("final \$T displayMetrics = resources.getDisplayMetrics()", cDisplayMetrics)
         }
 
         override fun startElement(uri: String, localName: String, qName: String, attributes: Attributes) {
             super.startElement(uri, localName, qName, attributes)
-            val node = XmlNode(nodeIndex++, qName, attributes, stack.firstOrNull())
-            stack.push(node)
-
-            line()
-            if (qName != "include") {
-                line("\$T \$L = new \$T(context)", node.viewType, node.view, node.viewType)
-            } else {
-                val cView = ClassName.get("android.view", "View")
-                line("\$T \$L = X2J.inflate(context, \$L, null)",
-                        cView, node.view, View.layoutId(attributes.getValue("layout")))
+            nodeIndex += 1
+            if (qName == "merge" && nodeIndex == 1) {
+                line("if (!attach || root == null) throw new RuntimeException(\$S)",
+                        "error with <merge />: valid ViewGroup root or attach = false")
             }
-
-            val parentType = node.parent?.viewType ?: ClassName.get("android.widget", "FrameLayout")
-            val parentLayoutType = parentType.nestedClass("LayoutParams")
-            line("\$T \$L = new \$T(0, 0)", parentLayoutType, node.layout, parentLayoutType)
-
-            codes.add(parse(node))
+            val node = XmlNode.create(nodeIndex, qName, run {
+                var parent = stack.peek()
+                while (parent.tagName == "merge") {
+                    parent = stack.peek()
+                }
+                parent
+            })
+            stack.push(node)
+            line()
+            if (qName == "merge") return
+            val parent = node.parent!!
+            if (qName == "include") {
+                val cView = ClassName.get("android.view", "View")
+                val layoutId = View.layoutId(attributes.getValue("layout"))
+                line("\$T ${node.view} = X2J.inflate(context, \$L, ${parent.view})", cView, layoutId)
+            } else {
+                line("\$T ${node.view} = new \$T(context)", node.viewType, node.viewType)
+                line("\$T ${node.layout} = new \$T(0, 0)", parent.layoutType, parent.layoutType)
+                codes.add(parse(node, attributes))
+            }
         }
 
         override fun endElement(uri: String, localName: String, qName: String) {
             super.endElement(uri, localName, qName)
             val node = stack.pop()
-            if (stack.isEmpty()) {
-                codes.add("\n")
-                        .addStatement("return ${node.view}")
-            } else {
-                val parent = stack.peek()
-                codes.addStatement("\$L.setLayoutParams(\$L)", node.view, node.layout)
-                        .addStatement("${parent.view}.addView(${node.view})")
+            val upperNode = stack.peek()
+            if (upperNode == XmlNode.root) {
+                line()
+                if (node.tagName != "merge") {
+                    line("if (attach && root != null) root.addView(${node.view})")
+                }
+                line("return ${node.view}")
+            } else if (node.tagName != "merge" && node.tagName != "include") {
+                line("\$L.setLayoutParams(\$L)", node.view, node.layout)
+                line("${node.parent!!.view}.addView(${node.view})")
             }
         }
 
@@ -73,9 +85,8 @@ object LayoutParser {
             }
         }
 
-        private fun parse(node: XmlNode): CodeBlock? {
+        private fun parse(node: XmlNode, attributes: Attributes): CodeBlock? {
             val parser = AttrParserFactory.getParser(node)
-            val attributes = node.attributes
             val codes = CodeBlock.builder()
 
             val style = attributes.getValue("style")

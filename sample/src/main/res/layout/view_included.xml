@@ -6,6 +6,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="included view" />
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="included view"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
 
 </LinearLayout>

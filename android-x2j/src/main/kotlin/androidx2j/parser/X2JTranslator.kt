@@ -3,10 +3,7 @@ package androidx2j.parser
 import androidx2j.MyLogger
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.api.BaseVariant
-import com.squareup.javapoet.ClassName
-import com.squareup.javapoet.JavaFile
-import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.TypeSpec
+import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
 
@@ -25,6 +22,8 @@ class X2JTranslator(private val packageName: String) {
                 .addMethod(MethodSpec.methodBuilder("createView")
                         .addModifiers(Modifier.PUBLIC)
                         .addParameter(ClassName.get("android.content", "Context"), "context")
+                        .addParameter(ClassName.get("android.view", "ViewGroup"), "root")
+                        .addParameter(TypeName.BOOLEAN, "attach")
                         .returns(ClassName.get("android.view", "View"))
                         .addComment("\$T.layout.$name", cR)
                         .addCode(LayoutParser.parse(file))
@@ -64,6 +63,10 @@ class X2JTranslator(private val packageName: String) {
                     } catch (e: Throwable) {
                         MyLogger.error("translate error: #$layoutId $file")
                         MyLogger.error(e)
+                        output.write("/** translate error: #$layoutId $file" +
+                                "\n" +
+                                "\n" + MyLogger.getStackTrace(e) +
+                                "\n */")
                     }
                 }
             }

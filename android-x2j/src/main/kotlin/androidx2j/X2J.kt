@@ -25,60 +25,52 @@ public class X2J {
     public static final boolean IS_ANDROID_LIBRARY = Boolean.parseBoolean("o_0_isAndroidLibrary");
 
     public static void setContentView(Activity activity, int layoutId) {
-        activity.setContentView(createView(activity, layoutId, null));
+        ViewGroup root = (ViewGroup) activity.findViewById(android.R.id.content);
+        activity.setContentView(inflate(activity, layoutId, root, false));
+    }
+
+    public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent) {
+        return inflate(inflater.getContext(), layoutId, parent, parent != null);
+    }
+
+    public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent, boolean attach) {
+        return inflate(inflater.getContext(), layoutId, parent, attach);
     }
 
     public static View inflate(Context context, int layoutId, ViewGroup parent) {
         return inflate(context, layoutId, parent, parent != null);
     }
 
-    public static View inflate(Context context, int layoutId, ViewGroup parent, boolean attach) {
-        return inflate(LayoutInflater.from(context), layoutId, parent, attach);
-    }
-
-    public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent) {
-        return inflate(inflater, layoutId, parent, parent != null);
-    }
-
-    public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent, boolean attach) {
-        View view = createView(inflater.getContext(), layoutId, parent);
-        if (attach && parent != null) {
-            parent.addView(view);
+    public static View inflate(Context context, int layoutId, ViewGroup root, boolean attach) {
+        ViewCreator creator = viewCreators.get(layoutId);
+        if (creator == null) {
+            creator = newViewCreator(layoutId);
+            viewCreators.put(layoutId, creator);
         }
-        return view;
+        return creator.createView(context, root, attach);
     }
 
     interface ViewCreator {
-        View createView(Context context);
+        View createView(Context context, ViewGroup root, boolean attach);
     }
-
-    private static final ViewCreator EMPTY_CREATOR = new ViewCreator() {
-        @Override
-        public View createView(Context context) {
-            return null;
-        }
-    };
-
-    private static final SparseArray<ViewCreator> viewCreators = new SparseArray<>();
 
     @SuppressWarnings("ConstantConditions")
-    private static View createView(Context context, int layoutId, ViewGroup parent) {
+    private static ViewCreator newViewCreator(final int layoutId) {
         try {
-            ViewCreator creator = viewCreators.get(layoutId);
-            if (creator != null) {
-                return creator.createView(context);
-            }
             String clzName = "dev.android.x2j.X2J_" + layoutId;
-            creator = (ViewCreator) X2J.class.getClassLoader().loadClass(clzName).newInstance();
-            viewCreators.put(layoutId, creator);
-            return creator.createView(context);
-        } catch (Exception e) {
-            Log.e("@X2J", "could not found layout " + layoutId, e);
-            // 放一个默认的 ViewCreator 进去，防止每次都调用反射方法耗时
-            viewCreators.put(layoutId, EMPTY_CREATOR);
-            return LayoutInflater.from(context).inflate(layoutId, parent, false);
+            return (ViewCreator) X2J.class.getClassLoader().loadClass(clzName).newInstance();
+        } catch (Throwable e) {
+            Log.e("@X2J", "could not create layout " + layoutId + " by x2j", e);
+            return new ViewCreator() {
+                @Override
+                public View createView(Context context, ViewGroup root, boolean attach) {
+                    return LayoutInflater.from(context).inflate(layoutId, root, attach);
+                }
+            };
         }
     }
+
+    private static final SparseArray<ViewCreator> viewCreators = new SparseArray<>();
 
     static int getResourceIdFromAttr(Context ctx, int attr) {
         TypedValue outValue = new TypedValue();
