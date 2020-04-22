@@ -91,7 +91,7 @@ public final class X2J {
         if (sIsLayoutNamesInitialized) {
             return;
         }
-        Class<?> cLayout = X2J.class.getClassLoader().loadClass(APPLICATION_ID + ".R2$" + "layout");
+        Class<?> cLayout = X2J.class.getClassLoader().loadClass(APPLICATION_ID + ".X2J_R$" + "layout");
         for (Field field : cLayout.getFields()) {
             sLayoutNames.put((int) field.get(null), field.getName());
         }
