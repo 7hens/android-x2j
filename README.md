@@ -1,6 +1,6 @@
 # Android X2J
 
-[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
+<!--[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
 [![license](https://img.shields.io/github/license/7hens/android-x2j.svg)](https://github.com/7hens/android-x2j/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/7hens/android-x2j.svg?style=social)](https://github.com/7hens/android-x2j)
 
@@ -16,7 +16,7 @@ Android X2J（XML to Java）是一个 Gradle 插件，它可以在 APK 编译期
 
 1) 配置根目录的 build/gradle。
 
-last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
+<!--last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
 
 ```groovy
 buildscript {
@@ -25,7 +25,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.7hens:android-x2j:<last_version>'
+        classpath 'com.github.7hens:android-x2j:1,4'
     }
 }
 ```
