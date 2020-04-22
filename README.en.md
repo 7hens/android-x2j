@@ -14,6 +14,8 @@ In the traditional case, XML is parsed at runtime (via LayoutInflater), while An
 
 1) in build/gradle.
 
+last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
+
 ```groovy
 buildscript {
     repositories {
@@ -33,7 +35,7 @@ buildscript {
 apply plugin: 'android-x2j'
 ```
 
-> Android X2J supports both application and library (plug-in only) modules. 
+> Android X2J supports both application and library modules.
 
 3) Ok, let's hand it over to Android X2J.
 
@@ -85,6 +87,4 @@ public class MainActivity extends Activity {
     }
 }
 ```
-
-Note that due to X2C's own limitations, current Android X2J does not support kotlin-kapt.
 

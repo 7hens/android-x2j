@@ -16,6 +16,8 @@ Android X2J（XML to Java）是一个 Gradle 插件，它可以在 APK 编译期
 
 1) 配置根目录的 build/gradle。
 
+last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
+
 ```groovy
 buildscript {
     repositories {
@@ -36,7 +38,7 @@ buildscript {
 apply plugin: 'android-x2j'
 ```
 
-> Android X2J 同时支持 application 和 library（只支持插件化）两种 module 方式。
+> Android X2J 同时支持 application 和 library 两种 module 方式。
 
 3) 好了，接下来就交给 Android X2J 吧。
 
@@ -92,5 +94,4 @@ public class MainActivity extends Activity {
 最后，如果你已经使用了 Android X2J 插件然后又想弃坑，这很容易就能做到。
 因为它只不过是一个 gradle 插件而已，没有任何侵入性。
 
-!> 注意，目前由于 X2C 自身的限制， Android X2J 并不支持 kotlin-kapt。
 
