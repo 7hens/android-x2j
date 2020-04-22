@@ -1,6 +1,7 @@
 package androidx2j
 
 import javassist.ClassPool
+import javassist.CtField
 import java.io.DataOutputStream
 import java.io.File
 import java.io.InputStream
@@ -26,6 +27,15 @@ class X2JClassConverter(private val classPool: ClassPool) {
             val cLayoutInflater = classPool.get("android.view.LayoutInflater")
             val cX2J = classPool.get("androidx2j.X2J")
 
+            val applicationId = cX2J.getField("APPLICATION_ID").constantValue.toString()
+            classPool.getOrNull("$applicationId.X2J_R")?.nestedClasses?.forEach { cls2 ->
+                val cls = classPool.makeClass(cls2.name.replace(".X2J_R", ".R"))
+                cls2.fields.forEach { field2 ->
+                    val field = CtField(field2.type, field2.name, cls)
+                    redirectFieldAccess(field, cls2, field2.name)
+                }
+            }
+
             redirectMethodInvokeToStatic(
                     cActivity.getDeclaredMethod("setContentView", arrayOf(cInt)),
                     cX2J.getDeclaredMethod("setContentView", arrayOf(cActivity, cInt)))
@@ -38,17 +48,6 @@ class X2JClassConverter(private val classPool: ClassPool) {
             redirectMethodInvokeToStatic(
                     cView.getDeclaredMethod("inflate", arrayOf(cContext, cInt, cViewGroup)),
                     cX2J.getDeclaredMethod("inflate", arrayOf(cContext, cInt, cViewGroup)))
-
-            val applicationId = cX2J.getField("APPLICATION_ID").constantValue.toString()
-            val cR2 = classPool.getOrNull("$applicationId.R2")
-            if (cR2 != null) {
-                classPool.get("$applicationId.R").nestedClasses.forEach { cls ->
-                    val cls2 = classPool.get(cls.name.replace(".R", ".R2"))
-                    cls.fields.forEach { field ->
-                        redirectFieldAccess(field, cls2, field.name)
-                    }
-                }
-            }
         }
     }
 

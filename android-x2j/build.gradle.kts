@@ -34,12 +34,11 @@ dependencies {
 }
 
 afterEvaluate {
-    val x2jFile = rootProject.file("x2c-compat/src/main/java/androidx2j/X2J.java")
-    x2jFile.inputStream().reader().use { reader ->
-        val text = reader.readText()
-        file("src/main/kotlin/androidx2j/X2J.kt").outputStream().writer().use { writer ->
-            writer.write("package androidx2j\n\nconst val X2J_CODE = \"\"\"$text\"\"\"")
-        }
+    val x2jInputFile = rootProject.file("x2c-compat/src/main/java/dev/android/x2j/X2J.java")
+    val x2jOutputFile = file("src/main/kotlin/androidx2j/X2J.kt")
+    if (x2jInputFile.lastModified() > x2jOutputFile.lastModified()) {
+        val x2jCode = x2jInputFile.readText()
+        x2jOutputFile.writeText("package androidx2j\n\nconst val X2J_CODE = \"\"\"$x2jCode\"\"\"")
     }
 }
 

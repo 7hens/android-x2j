@@ -34,7 +34,7 @@
         app:layout_constraintLeft_toRightOf="@id/xml"
         app:layout_constraintTop_toTopOf="@id/xml" />
 
-    <androidx2j.sample.CustomView
+    <androidx2j.sample.lib.CustomView
         android:id="@+id/custom"
         android:layout_width="150dp"
         android:layout_height="50dp"
@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="androidx2j.sample.MyFragment"
+        android:name="androidx2j.sample.lib.MyFragment"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintLeft_toLeftOf="parent"

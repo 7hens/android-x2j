@@ -1,10 +1,8 @@
 package androidx2j
 
-import android.databinding.tool.ext.toCamelCase
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
-import com.android.utils.FileUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
@@ -15,12 +13,12 @@ class X2JPlugin : Plugin<Project> {
     private var isAndroidLibrary = false
 
     override fun apply(project: Project) {
-        println(LOG_TAG + "hello, android-x2j")
+        MyLogger.log("hello, android-x2j")
         try {
             val androidApp = project.extensions.findByType(AppExtension::class.java)
             val androidLib = project.extensions.findByType(LibraryExtension::class.java)
             val android = androidApp ?: androidLib ?: run {
-                System.err.println(LOG_TAG + "not a android module")
+                MyLogger.error("not a android module")
                 return
             }
             isAndroidLibrary = androidLib != null
@@ -31,8 +29,8 @@ class X2JPlugin : Plugin<Project> {
                     .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
                     .forEach { layoutFiles[it.nameWithoutExtension] = it }
 
-            val containsKapt = project.plugins.findPlugin("kotlin-kapt") != null
-            val apt = if (containsKapt) "kapt" else "annotationProcessor"
+            val hasKaptPlugin = project.pluginManager.hasPlugin("kotlin-kapt")
+            val apt = if (hasKaptPlugin) "kapt" else "annotationProcessor"
             val x2cVersion = "-SNAPSHOT"
             project.configurations.getByName(apt).dependencies
                     .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
@@ -45,31 +43,28 @@ class X2JPlugin : Plugin<Project> {
 
             android.registerTransform(X2JTransform(android))
 
+            val outputDir = File(project.buildDir, "generated/source/x2j/main")
+            android.sourceSets.findByName("main")!!.java.srcDir(outputDir)
             project.afterEvaluate {
-                if (android is AppExtension) {
-                    android.applicationVariants.forEach {
-                        generateX2J(project, it)
-                    }
-                } else if (android is LibraryExtension) {
-                    android.libraryVariants.forEach {
-                        generateX2J(project, it)
-                    }
+                (androidApp?.applicationVariants ?: androidLib?.libraryVariants)?.forEach {
+                    generateX2J(project, outputDir, it)
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
+            MyLogger.error(e)
         }
     }
 
-    private fun generateX2J(project: Project, variant: BaseVariant) {
+    private fun generateX2J(project: Project, outputRootDir: File, variant: BaseVariant) {
         val variantName = variant.name
+        val yaVariantName = variantName.capitalize()
         val applicationId = variant.applicationId
-        val outputRootDir = File(project.buildDir, "generated/source/apt/$variantName")
+        val sep = File.separator
 
-        val genX2JTask = project.tasks.create("generate${variantName.toCamelCase()}X2J") {
+        val genX2JTask = project.tasks.create("generate${yaVariantName}X2J") {
             group = "build"
             doLast {
-                println(LOG_TAG + "generate X2J file")
+                MyLogger.log("generate X2J file")
                 val x2jFile = File(outputRootDir, "androidx2j/X2J.java")
                 x2jFile.parentFile.mkdirs()
                 x2jFile.delete()
@@ -84,36 +79,25 @@ class X2JPlugin : Plugin<Project> {
         }
         variant.registerJavaGeneratingTask(genX2JTask, outputRootDir)
 
-        project.tasks.getByName("generate${variantName.toCamelCase()}Sources").doLast {
-            println(LOG_TAG + "generate R file")
-            val rFilePath = applicationId.replace(".", "/") + "/R.java"
-            val rFile = File(project.buildDir, "generated/source/r/$variantName/$rFilePath")
-            val rFile2 = File(project.buildDir, "generated/not_namespaced_r_class_sources/$variantName/r/$rFilePath")
-            if (rFile.exists() || rFile2.exists()) {
-                if (!rFile.exists()) {
-                    rFile.parentFile.mkdirs()
-                    FileUtils.copyFile(rFile2, rFile)
+        val rFilePath = applicationId.replace(".", sep) + sep + "R.java"
+        val x2jRFile = File(outputRootDir, rFilePath.replace("R.java", "X2J_R.java"))
+        val x2jRGenerator = X2JRFileGenerator(applicationId, x2jRFile)
+        if (isAndroidLibrary) {
+            project.tasks.getByName("generate${yaVariantName}RFile").doLast {
+                MyLogger.log("generate X2J_R.java file")
+                val rTxtFile = outputs.files.files.first { it.absolutePath.endsWith("R.txt") }
+                x2jRGenerator.fromRTxt(rTxtFile)
+            }
+        } else {
+            project.tasks.getByName("process${yaVariantName}Resources").doLast {
+                MyLogger.log("generate X2J_R.java file")
+                val rJavaDir = outputs.files.files.first {
+                    it.absolutePath.contains("generated") && it.absolutePath.contains(sep + "r")
                 }
-                if (isAndroidLibrary) {
-                    val r2File = File(outputRootDir, rFilePath.replace("R.java", "R2.java"))
-                    rFile.inputStream().reader().use { reader ->
-                        r2File.parentFile.mkdirs()
-                        r2File.outputStream().writer().use { writer ->
-                            writer.write(reader.readText()
-                                    .replace("class R {", "class R2 {"))
-                        }
-                    }
-                }
-                println(LOG_TAG + "create R file success")
-            } else {
-                System.err.println(LOG_TAG + "R file not found, $rFile; $rFile2")
+                val rJavaFile = File(rJavaDir, rFilePath)
+                x2jRGenerator.fromRJava(rJavaFile)
             }
         }
-
-    }
-
-    companion object {
-        const val LOG_TAG = "@(android-x2j): "
     }
 }
 

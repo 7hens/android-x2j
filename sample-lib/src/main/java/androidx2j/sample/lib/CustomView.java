@@ -1,4 +1,4 @@
-package androidx2j.sample;
+package androidx2j.sample.lib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -31,10 +31,10 @@ public class CustomView extends View {
         int N = typedArray.length();
         int index;
         for (int i = 0; i < N; i++) {
-            switch (index = typedArray.getIndex(i)) {
-                case R.styleable.CustomView_mixColor:
-                    setMixColor(typedArray.getInteger(index, RED));
-                    break;
+            index = typedArray.getIndex(i);
+            if (index == R.styleable.CustomView_mixColor) {
+                setMixColor(typedArray.getInteger(index, RED));
+                break;
             }
         }
         typedArray.recycle();

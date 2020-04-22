@@ -1,4 +1,4 @@
-package androidx2j.sample;
+package androidx2j.sample.lib;
 
 import android.app.Activity;
 import android.os.Bundle;
