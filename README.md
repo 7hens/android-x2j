@@ -25,7 +25,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.7hens:android-x2j:1,4'
+        classpath 'com.github.7hens:android-x2j:1.4'
     }
 }
 ```
