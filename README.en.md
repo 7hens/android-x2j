@@ -1,6 +1,6 @@
 # Android X2J
 
-<!--[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
+[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
 [![license](https://img.shields.io/github/license/7hens/android-x2j.svg)](https://github.com/7hens/android-x2j/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/7hens/android-x2j.svg?style=social)](https://github.com/7hens/android-x2j)
 
@@ -14,7 +14,7 @@ In the traditional case, XML is parsed at runtime (via LayoutInflater), while An
 
 1) in build/gradle.
 
-<!--last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
+last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
 
 ```groovy
 buildscript {
@@ -23,7 +23,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.7hens:android-x2j:1.4'
+        classpath 'com.github.7hens:android-x2j:<last_version>'
     }
 }
 ```

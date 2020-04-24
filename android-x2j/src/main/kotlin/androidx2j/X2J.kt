@@ -21,6 +21,13 @@ public final class X2J {
     public static final String APPLICATION_ID = "o_0_applicationId";
     public static final boolean IS_ANDROID_LIBRARY = Boolean.parseBoolean("o_0_isAndroidLibrary");
 
+    private static final IViewCreator EMPTY_CREATOR = new IViewCreator() {
+        @Override
+        public View createView(Context context) {
+            return null;
+        }
+    };
+
     public static void setContentView(Activity activity, int layoutId) {
         View view = getView(activity, layoutId);
         if (view != null) {
@@ -70,7 +77,7 @@ public final class X2J {
 
             //如果creator为空，放一个默认进去，防止每次都调用反射方法耗时
             if (creator == null) {
-                creator = new DefaultCreator();
+                creator = EMPTY_CREATOR;
             }
             sViewCreators.put(layoutId, creator);
             return creator.createView(context);
@@ -105,13 +112,6 @@ public final class X2J {
         }
         initLayoutNames();
         return sLayoutNames.get(layoutId);
-    }
-
-    private static class DefaultCreator implements IViewCreator {
-        @Override
-        public View createView(Context context) {
-            return null;
-        }
     }
 }
 """

@@ -1,6 +1,6 @@
 # Android X2J
 
-<!--[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
+[![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
 [![license](https://img.shields.io/github/license/7hens/android-x2j.svg)](https://github.com/7hens/android-x2j/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/7hens/android-x2j.svg?style=social)](https://github.com/7hens/android-x2j)
 
@@ -16,7 +16,7 @@ Android X2J（XML to Java）是一个 Gradle 插件，它可以在 APK 编译期
 
 1) 配置根目录的 build/gradle。
 
-<!--last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)-->
+last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
 
 ```groovy
 buildscript {
@@ -25,7 +25,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.7hens:android-x2j:1.4'
+        classpath 'com.github.7hens:android-x2j:<last_version>'
     }
 }
 ```
@@ -44,7 +44,7 @@ apply plugin: 'android-x2j'
 
 ## X2J 和 X2C
 
-Android X2J 基于 [X2C](https://github.com/iReaderAndroid/X2C) (将 XML 布局翻译成 Java 代码)。
+Android X2J 基于 [X2C](https://github.com/iReaderAndroid/X2C)。
 __它甚至可以让你在完全不了解 X2C 的 API 和用法情况下，就可以享受到 X2C 的功能。__
 
 首先，Android X2J 会自动为你在 dependencies 中添加 X2C 的相关依赖，并生成相关的 `@Xml` 注解。
