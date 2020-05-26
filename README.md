@@ -14,18 +14,23 @@ Android X2J（XML to Java）是一个 Gradle 插件，它可以在 APK 编译期
 
 ## 使用方法
 
-1) 配置根目录的 build/gradle。
+1) 配置根目录的 build.gradle。
 
 last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://jitpack.io/#7hens/android-x2j)
 
 ```groovy
 buildscript {
     repositories {
-        // ...
         maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.github.7hens:android-x2j:<last_version>'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
     }
 }
 ```

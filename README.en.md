@@ -19,11 +19,16 @@ last_version: [![jitpack](https://jitpack.io/v/7hens/android-x2j.svg)](https://j
 ```groovy
 buildscript {
     repositories {
-        // ...
         maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.github.7hens:android-x2j:<last_version>'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
     }
 }
 ```
