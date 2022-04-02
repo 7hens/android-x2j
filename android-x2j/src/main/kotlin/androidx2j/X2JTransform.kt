@@ -1,6 +1,7 @@
 package androidx2j
 
 import com.android.SdkConstants
+import com.android.annotations.NonNull
 import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
@@ -69,7 +70,11 @@ class X2JTransform(private val android: BaseExtension) : Transform() {
     }
 
     private fun TransformOutputProvider.getOutputFile(input: QualifiedContent, file: File): File {
-        return File(getContentLocation(input), FileUtils.relativePossiblyNonExistingPath(file, input.file))
+        return File(getContentLocation(input), relativePossiblyNonExistingPath(file, input.file))
+    }
+
+    private fun  relativePossiblyNonExistingPath(file: File,  dir: File): String {
+        return dir.toURI().relativize(file.toURI()).path
     }
 
     private fun TransformOutputProvider.getContentLocation(input: QualifiedContent): File {

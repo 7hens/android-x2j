@@ -24,21 +24,21 @@ class X2JPlugin : Plugin<Project> {
             isAndroidLibrary = androidLib != null
 
             android.sourceSets.getByName("main").res.srcDirs.asSequence()
-                    .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
-                    .filter { it.name.startsWith("layout") }
-                    .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
-                    .forEach { layoutFiles[it.nameWithoutExtension] = it }
+                .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
+                .filter { it.name.startsWith("layout") }
+                .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
+                .forEach { layoutFiles[it.nameWithoutExtension] = it }
 
             val hasKaptPlugin = project.pluginManager.hasPlugin("kotlin-kapt")
             val apt = if (hasKaptPlugin) "kapt" else "annotationProcessor"
             val x2cVersion = "-SNAPSHOT"
             project.configurations.getByName(apt).dependencies
-                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
+                .add(project.dependencies.create("com.github.7hens.X2C:x2c-apt:$x2cVersion"))
             project.configurations.getByName("implementation").dependencies
-                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-lib:$x2cVersion"))
+                .add(project.dependencies.create("com.github.7hens.X2C:x2c-lib:$x2cVersion"))
             if (android.dataBinding.isEnabled) {
                 project.configurations.getByName("implementation").dependencies
-                        .add(project.dependencies.create("com.github.7hens.X2C:x2c-binding:$x2cVersion"))
+                    .add(project.dependencies.create("com.github.7hens.X2C:x2c-binding:$x2cVersion"))
             }
 
             android.registerTransform(X2JTransform(android))
@@ -70,10 +70,12 @@ class X2JPlugin : Plugin<Project> {
                 x2jFile.delete()
                 x2jFile.outputStream().writer().use { writer ->
                     val layouts = layoutFiles.keys.joinToString(", ") { "\"$it\"" }
-                    writer.write(X2J_CODE
+                    writer.write(
+                        X2J_CODE
                             .replace("\"o_0_layouts\"", layouts)
                             .replace("o_0_applicationId", applicationId)
-                            .replace("o_0_isAndroidLibrary", "" + isAndroidLibrary))
+                            .replace("o_0_isAndroidLibrary", "" + isAndroidLibrary)
+                    )
                 }
             }
         }
@@ -82,6 +84,7 @@ class X2JPlugin : Plugin<Project> {
         val rFilePath = applicationId.replace(".", sep) + sep + "R.java"
         val x2jRFile = File(outputRootDir, rFilePath.replace("R.java", "X2J_R.java"))
         val x2jRGenerator = X2JRFileGenerator(applicationId, x2jRFile)
+
         if (isAndroidLibrary) {
             project.tasks.getByName("generate${yaVariantName}RFile").doLast {
                 MyLogger.log("generate X2J_R.java file")
@@ -91,11 +94,19 @@ class X2JPlugin : Plugin<Project> {
         } else {
             project.tasks.getByName("process${yaVariantName}Resources").doLast {
                 MyLogger.log("generate X2J_R.java file")
-                val rJavaDir = outputs.files.files.first {
-                    it.absolutePath.contains("generated") && it.absolutePath.contains(sep + "r")
+                outputs.files.files.onEach { MyLogger.log(it) }
+                val rJavaDir = outputs.files.files.firstOrNull {
+                    it.absolutePath.contains("generated") &&
+                            it.absolutePath.contains(sep + "r") &&
+                            it.isDirectory
                 }
-                val rJavaFile = File(rJavaDir, rFilePath)
-                x2jRGenerator.fromRJava(rJavaFile)
+                if (rJavaDir != null) {
+                    val rJavaFile = File(rJavaDir, rFilePath)
+                    x2jRGenerator.fromRJava(rJavaFile)
+                } else {
+                    val rTxtFile = outputs.files.files.first { it.absolutePath.endsWith("R.txt") }
+                    x2jRGenerator.fromRTxt(rTxtFile)
+                }
             }
         }
     }
