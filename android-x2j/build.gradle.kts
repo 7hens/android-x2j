@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("com.github.dcendents.android-maven")
+//    id("com.github.dcendents.android-maven")
     id("maven-publish")
 }
 
@@ -8,19 +8,21 @@ group = "com.github.7hens"
 version = "-SNAPSHOT"
 
 repositories {
+    maven("https://maven.aliyun.com/repository/google")
+    maven("https://maven.aliyun.com/repository/public")
     google()
-    jcenter()
     mavenLocal()
+    maven("https://jitpack.io")
 }
 
-//gradlePlugin {
-//    plugins {
-//        register("android-x2j") {
-//            id = "android-x2j"
-//            implementationClass = "androidx2j.X2JPlugin"
-//        }
-//    }
-//}
+gradlePlugin {
+    plugins {
+        register("android-x2j") {
+            id = "android-x2j"
+            implementationClass = "androidx2j.X2JPlugin"
+        }
+    }
+}
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))

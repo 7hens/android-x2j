@@ -1,6 +1,6 @@
-rootProject.name = 'AndroidX2J'
+includeBuild 'android-x2j'
 
-include ':android-x2j'
+rootProject.name = 'AndroidX2J'
 include ':x2c-compat'
 include ':sample-app'
 include ':sample-lib'
