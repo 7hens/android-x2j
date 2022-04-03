@@ -24,7 +24,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.github.7hens:android-x2j:1.4'
+        classpath 'com.github.7hens:android-x2j:1.5'
     }
 }
 
@@ -39,8 +39,15 @@ allprojects {
 
 ```groovy
 // 必须在 android {} 代码块之后添加插件。
-// 如果你不想使用 X2J 了，把这行注释掉就行了。
+// 如果你不想使用 X2J 了，把这些配置注释掉就行了。
 apply plugin: 'android-x2j'
+
+// 配置想要翻译的 xml 布局（可选），
+// 默认情况下会翻译所有的 xml 布局
+androidX2J {
+    includes "activity_.*", "dialog_main"
+    excludes "fragment_.*"
+}
 ```
 
 > Android X2J 同时支持 application 和 library 两种 module 方式。

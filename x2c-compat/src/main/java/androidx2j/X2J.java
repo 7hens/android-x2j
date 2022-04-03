@@ -12,12 +12,17 @@ import com.zhangyue.we.x2c.IViewCreator;
 import com.zhangyue.we.x2c.ano.Xml;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("ConstantConditions")
 @Xml(layouts = {"o_0_layouts"})
 public final class X2J {
     public static final String APPLICATION_ID = "o_0_applicationId";
     public static final boolean IS_ANDROID_LIBRARY = Boolean.parseBoolean("o_0_isAndroidLibrary");
+    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
+    private static final Set<String> LAYOUT_SET = new HashSet<>(Arrays.asList("o_0_layouts"));
 
     private static final IViewCreator EMPTY_CREATOR = new IViewCreator() {
         @Override
@@ -48,7 +53,7 @@ public final class X2J {
     }
 
     public static View inflate(LayoutInflater inflater, int layoutId, ViewGroup parent,
-            boolean attach) {
+                               boolean attach) {
         View view = getView(inflater.getContext(), layoutId);
         if (view != null) {
             if (parent != null && attach) {
@@ -63,26 +68,28 @@ public final class X2J {
     private static final SparseArray<IViewCreator> sViewCreators = new SparseArray<>();
 
     private static View getView(Context context, int layoutId) {
+        IViewCreator creator = null;
+        String layoutName = "" + layoutId;
         try {
-            IViewCreator creator = sViewCreators.get(layoutId);
+            creator = sViewCreators.get(layoutId);
             if (creator != null) {
                 return creator.createView(context);
             }
             int group = generateGroupId(layoutId);
-            String layoutName = getLayoutName(context, layoutId);
-            String clzName = "com.zhangyue.we.x2c.X2C" + group + "_" + layoutName;
-            creator = (IViewCreator) X2J.class.getClassLoader().loadClass(clzName).newInstance();
-
-            //如果creator为空，放一个默认进去，防止每次都调用反射方法耗时
-            if (creator == null) {
-                creator = EMPTY_CREATOR;
+            layoutName = getLayoutName(context, layoutId);
+            if (LAYOUT_SET.contains(layoutName)) {
+                String clzName = "com.zhangyue.we.x2c.X2C" + group + "_" + layoutName;
+                creator = (IViewCreator) X2J.class.getClassLoader().loadClass(clzName).newInstance();
             }
-            sViewCreators.put(layoutId, creator);
-            return creator.createView(context);
         } catch (Exception e) {
-            Log.e("@X2J", "could not found layout " + layoutId, e);
-            return null;
+            Log.e("@X2J", "could not found layout " + layoutName, e);
         }
+        //如果creator为空，放一个默认进去，防止每次都调用反射方法耗时
+        if (creator == null) {
+            creator = EMPTY_CREATOR;
+        }
+        sViewCreators.put(layoutId, creator);
+        return creator.createView(context);
     }
 
     private static int generateGroupId(int layoutId) {

@@ -38,6 +38,14 @@ allprojects {
 ```groovy
 // make sure this line comes AFTER android {} block.
 apply plugin: 'android-x2j'
+
+
+// configure the xml layouts to translate (optional)，
+// all xml layouts are translated by default
+androidX2J {
+    includes "activity_.*", "dialog_main"
+    excludes "fragment_.*"
+}
 ```
 
 > Android X2J supports both application and library modules.

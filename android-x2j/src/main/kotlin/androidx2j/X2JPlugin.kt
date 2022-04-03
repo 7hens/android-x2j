@@ -24,6 +24,8 @@ class X2JPlugin : Plugin<Project> {
                 return
             }
             isAndroidLibrary = androidLib != null
+
+            project.extensions.create("androidX2J", X2JExtension::class.java)
             findLayoutFiles(android)
             implementationX2JDependencies(project, android)
             android.registerTransform(X2JTransform(android))
@@ -32,6 +34,7 @@ class X2JPlugin : Plugin<Project> {
             android.sourceSets.findByName("main")!!.java.srcDir(outputDir)
             project.afterEvaluate {
                 (androidApp?.applicationVariants ?: androidLib?.libraryVariants)?.forEach { variant ->
+                    resolveX2JExtension(project.extensions.getByType(X2JExtension::class.java))
                     generateX2JFile(project, outputDir, variant)
                     generateRFile(project, outputDir, variant)
                 }
@@ -47,6 +50,12 @@ class X2JPlugin : Plugin<Project> {
             .filter { it.name.startsWith("layout") }
             .flatMap { it.listFiles()?.asSequence() ?: emptySequence() }
             .forEach { layoutFiles[it.nameWithoutExtension] = it }
+    }
+
+    private fun resolveX2JExtension(x2JExtension: X2JExtension) {
+        val filteredFiles = layoutFiles.filterKeys { x2JExtension.matches(it) }
+        layoutFiles.clear()
+        layoutFiles.putAll(filteredFiles)
     }
 
     private fun implementationX2JDependencies(project: Project, android: BaseExtension) {

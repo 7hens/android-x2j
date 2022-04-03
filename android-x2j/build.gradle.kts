@@ -34,7 +34,7 @@ dependencies {
 }
 
 afterEvaluate {
-    val x2jInputFile = rootProject.file("x2c-compat/src/main/java/androidx2j/X2J.java")
+    val x2jInputFile = file("../x2c-compat/src/main/java/androidx2j/X2J.java")
     val x2jOutputFile = file("src/main/kotlin/androidx2j/X2J.kt")
     if (x2jInputFile.lastModified() > x2jOutputFile.lastModified()) {
         val x2jCode = x2jInputFile.readText()

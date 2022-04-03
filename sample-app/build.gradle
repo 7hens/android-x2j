@@ -48,6 +48,11 @@ android {
 
 apply plugin: 'android-x2j'
 
+androidX2J {
+    includes "activity_.*", "fragment_.*", "layout_.*"
+    excludes "fragment_.*"
+}
+
 dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

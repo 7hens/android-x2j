@@ -9,8 +9,8 @@
 
    <TextView
        android:gravity="center"
-       android:background="#ff0000"
-       android:text="i am a fragment"
+       android:background="#0000ff"
+       android:text="i am a custom layout"
        android:textColor="@android:color/white"
        android:layout_width="match_parent"
        android:layout_height="match_parent" />
