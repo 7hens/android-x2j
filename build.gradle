@@ -41,3 +41,7 @@ allprojects {
         options.addBooleanOption('Xdoclint:none', true)
     }
 }
+
+tasks.register('publishToMavenLocal') {
+    dependsOn gradle.includedBuild("android-x2j").task(":publishToMavenLocal")
+}
