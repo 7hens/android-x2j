@@ -1,7 +1,6 @@
 package androidx2j
 
 import com.android.SdkConstants
-import com.android.annotations.NonNull
 import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
@@ -20,50 +19,51 @@ import java.util.zip.ZipOutputStream
  */
 @Suppress("UnstableApiUsage")
 class X2JTransform(private val android: BaseExtension) : Transform() {
-    private val classPool = ClassPool(null).apply {
-        val sdkDirectory = android.sdkDirectory
-        val compileSdkVersion = android.compileSdkVersion
-        val contextClassLoader = Thread.currentThread().contextClassLoader
-        val androidJar = File(sdkDirectory, "platforms/$compileSdkVersion/android.jar")
-        appendClassPath(LoaderClassPath(contextClassLoader))
-        appendClassPath(androidJar.absolutePath)
-    }
-
     override fun transform(transformInvocation: TransformInvocation) {
         super.transform(transformInvocation)
         MyLogger.log("transform start")
         val outputProvider = transformInvocation.outputProvider
+        val classPool = AndroidClassPool(android)
         transformInvocation.inputs.asSequence()
                 .flatMap { it.directoryInputs.asSequence() + it.jarInputs }
                 .forEach { classPool.appendClassPath(it.file.absolutePath) }
 
         val classConverter = X2JClassConverter(classPool)
+        outputProvider.deleteAll()
         transformInvocation.inputs.forEach { transformInput ->
-            transformInput.directoryInputs.forEach { directoryInput ->
-                for (file in FileUtils.getAllFiles(directoryInput.file)) {
-                    val outputFile = outputProvider.getOutputFile(directoryInput, file)
-                    Files.createParentDirs(outputFile)
-                    if (file != null && file.name.endsWith(SdkConstants.DOT_CLASS)) {
-                        classConverter.convert(file, outputFile)
-                    } else {
-                        FileUtils.copyFile(file, outputFile)
-                    }
-                }
+            transformInput.directoryInputs.forEach { dirInput ->
+                classConverter.convert(dirInput, outputProvider)
             }
             transformInput.jarInputs.forEach { jarInput ->
-                val zipFile = ZipFile(jarInput.file)
-                val outputFile = outputProvider.getOutputFile(jarInput, jarInput.file)
-                Files.createParentDirs(outputFile)
-                ZipOutputStream(outputFile.outputStream()).use { outputStream ->
-                    for (entry in zipFile.entries()) {
-                        outputStream.putNextEntry(ZipEntry(entry.name))
-                        zipFile.getInputStream(entry).use { inputStream ->
-                            if (entry.isDirectory.not() && entry.name.endsWith(SdkConstants.DOT_CLASS)) {
-                                classConverter.convert(inputStream, outputStream)
-                            } else {
-                                inputStream.copyTo(outputStream)
-                            }
-                        }
+                classConverter.convert(jarInput, outputProvider)
+            }
+        }
+    }
+
+    private fun X2JClassConverter.convert(input: DirectoryInput, output: TransformOutputProvider) {
+        for (file in FileUtils.getAllFiles(input.file)) {
+            val outputFile = output.getOutputFile(input, file)
+            Files.createParentDirs(outputFile)
+            if (file != null && file.name.endsWith(SdkConstants.DOT_CLASS)) {
+                convert(file, outputFile)
+            } else {
+                FileUtils.copyFile(file, outputFile)
+            }
+        }
+    }
+
+    private fun X2JClassConverter.convert(input: JarInput, output: TransformOutputProvider) {
+        val zipFile = ZipFile(input.file)
+        val outputFile = output.getOutputFile(input, input.file)
+        Files.createParentDirs(outputFile)
+        ZipOutputStream(outputFile.outputStream()).use { outputStream ->
+            for (entry in zipFile.entries()) {
+                outputStream.putNextEntry(ZipEntry(entry.name))
+                zipFile.getInputStream(entry).use { inputStream ->
+                    if (entry.isDirectory.not() && entry.name.endsWith(SdkConstants.DOT_CLASS)) {
+                        convert(inputStream, outputStream)
+                    } else {
+                        inputStream.copyTo(outputStream)
                     }
                 }
             }
@@ -74,7 +74,7 @@ class X2JTransform(private val android: BaseExtension) : Transform() {
         return File(getContentLocation(input), relativePossiblyNonExistingPath(file, input.file))
     }
 
-    private fun  relativePossiblyNonExistingPath(file: File,  dir: File): String {
+    private fun relativePossiblyNonExistingPath(file: File, dir: File): String {
         return dir.toURI().relativize(file.toURI()).path
     }
 

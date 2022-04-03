@@ -11,7 +11,7 @@ class X2JRFileGenerator(private val applicationId: String, private val output: F
 
     fun fromRTxt(input: File) {
         if (!input.exists()) {
-            MyLogger.error("R.txt file not found, $input")
+            MyLogger.error("R.txt not found, $input")
             return
         }
         input.inputStream().reader().use { reader ->
@@ -45,12 +45,12 @@ class X2JRFileGenerator(private val applicationId: String, private val output: F
                 }
             }
         }
-        MyLogger.log("create $outputClassName.java file success")
+        MyLogger.log("create $outputClassName.java success")
     }
 
     fun fromRJava(input: File) {
         if (!input.exists()) {
-            MyLogger.error("R.java file not found, $input")
+            MyLogger.error("R.java not found, $input")
             return
         }
         input.inputStream().reader().use { reader ->
@@ -60,6 +60,6 @@ class X2JRFileGenerator(private val applicationId: String, private val output: F
                         .replace("class R {", "class $outputClassName {"))
             }
         }
-        MyLogger.log("create $outputClassName.java file success")
+        MyLogger.log("create $outputClassName.java success")
     }
 }

@@ -79,7 +79,7 @@ class X2JPlugin : Plugin<Project> {
         val genX2JTask = project.tasks.create("generate${variantName}X2J") {
             group = "build"
             doLast {
-                MyLogger.log("generate X2J file")
+                MyLogger.log("generate X2J.java")
                 val x2jFile = File(outputRootDir, "androidx2j/X2J.java")
                 x2jFile.parentFile.mkdirs()
                 x2jFile.delete()
@@ -108,13 +108,13 @@ class X2JPlugin : Plugin<Project> {
 
         if (isAndroidLibrary) {
             project.tasks.getByName("generate${variantName}RFile").doLast {
-                MyLogger.log("generate X2J_R.java file")
+                MyLogger.log("generate X2J_R.java")
                 val rTxtFile = outputs.files.files.first { it.absolutePath.endsWith("R.txt") }
                 x2jRGenerator.fromRTxt(rTxtFile)
             }
         } else {
             project.tasks.getByName("process${variantName}Resources").doLast {
-                MyLogger.log("generate X2J_R.java file")
+                MyLogger.log("generate X2J_R.java")
                 outputs.files.files.onEach { MyLogger.log(it) }
                 val rJavaDir = outputs.files.files.firstOrNull {
                     it.absolutePath.contains("generated") &&

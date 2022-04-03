@@ -31,11 +31,11 @@ class ObjectInvokeCodeConverter : CodeConverter() {
      * @param substMethod 新方法。必须为静态方法，且该方法签名与原方法一样，仅在第一个参数处多一个参数，类型为原方法的被调用类型。
      */
     fun redirectMethodInvokeToStatic(origMethod: CtMethod, substMethod: CtMethod) {
-        try {
+        transformers = try {
             if (Modifier.isStatic(origMethod.modifiers)) {
-                transformers = TransformCall(transformers, origMethod, substMethod)
+                TransformCall(transformers, origMethod, substMethod)
             } else {
-                transformers = StaticTransform(transformers, origMethod, substMethod)
+                StaticTransform(transformers, origMethod, substMethod)
             }
         } catch (e: NotFoundException) {
             throw CannotCompileException(e)
