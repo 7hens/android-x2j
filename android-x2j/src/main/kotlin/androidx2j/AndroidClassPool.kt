@@ -20,7 +20,7 @@ class AndroidClassPool(private val android: BaseExtension) : ClassPool(false) {
         return File(sdkDirectory, "platforms/$compileSdkVersion/android.jar")
     }
 
-    override fun get0(classname: String?, useCache: Boolean): CtClass {
+    override fun get0(classname: String?, useCache: Boolean): CtClass? {
         var cls = super.get0(classname, useCache)
         if (cls == null && isCalledFromFixTypes2(Throwable())) {
             cls = makeClass(classname)

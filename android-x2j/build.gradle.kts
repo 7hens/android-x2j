@@ -1,11 +1,18 @@
+import java.util.Properties
+
 plugins {
     `kotlin-dsl`
 //    id("com.github.dcendents.android-maven")
     id("maven-publish")
 }
 
-group = "com.github.7hens"
-version = "-SNAPSHOT"
+fun File.toProperties(): Properties {
+    return Properties().apply { inputStream().use { load(it) } }
+}
+
+val properties = File(projectDir.parent, "gradle.properties").toProperties()
+group = properties["GROUP_ID"].toString()
+version = properties["VERSION"].toString()
 
 repositories {
     maven("https://maven.aliyun.com/repository/google")

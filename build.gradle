@@ -27,6 +27,8 @@ plugins {
 }
 
 allprojects {
+    group = rootProject.properties["GROUP_ID"].toString()
+    version = rootProject.properties["VERSION"].toString()
     repositories {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
